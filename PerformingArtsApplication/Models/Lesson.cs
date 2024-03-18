@@ -16,6 +16,8 @@ namespace PerformingArtsApplication.Models
 
         public DateTime LessonTime {  get; set; }
 
+        public int Room {  get; set; }
+
         //A lesson has one teacher
         //A teacher can teach many lessons
         [ForeignKey("Teacher")]
