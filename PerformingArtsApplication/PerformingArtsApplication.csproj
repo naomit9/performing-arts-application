@@ -223,6 +223,10 @@
     <Compile Include="Migrations\202403172340525_showcases-performances.designer.cs">
       <DependentUpon>202403172340525_showcases-performances.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202403180022296_lessontimes.cs" />
+    <Compile Include="Migrations\202403180022296_lessontimes.designer.cs">
+      <DependentUpon>202403180022296_lessontimes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -364,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202403172340525_showcases-performances.resx">
       <DependentUpon>202403172340525_showcases-performances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403180022296_lessontimes.resx">
+      <DependentUpon>202403180022296_lessontimes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
