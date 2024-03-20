@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<script>
+    //client side validation
+    function validatePerformanceForm() {
+        var validPerformanceData = true;
+
+        var PerformanceId = document.getElementById("PerformanceId").value;
+        var PerformanceIdError = document.getElementById("PerformanceIdError");
+
+        if (PerformanceId === "") {
+            PerformanceIdError.style.display = "block";
+            validPerformanceData = false;
+        } else {
+            PerformanceIdError.style.display = "none";
+        }
+
+        var PerformanceName = document.getElementById("PerformanceName").value;
+        var PerformanceNameError = document.getElementById("PerformanceNameError");
+
+        if (PerformanceName === "") {
+            PerformanceNameError.style.display = "block";
+            validPerformanceData = false;
+        } else {
+            PerformanceNameError.style.display = "none";
+        }
+
+        if (validPerformanceData === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+
+<h2>Create Performance</h2>
+
+<form action="/Performance/Create" method="POST" onsubmit="return validatePerformanceForm()">
+    <div class="formInput">
+        <p id="PerformanceIdError" style="display:none; color:red;">*Please enter a performance id</p>
+        <label>Performance Id</label>
+        <input type="number" name="PerformanceId" id="PerformanceId" />
+    </div>
+    <div class="formInput">
+        <p id="PerformanceNameError" style="display:none; color:red;">*Please enter a performance name</p>
+        <label>Performance Name</label>
+        <input type="text" name="PerformanceName" id="PerformanceName" />
+    </div>
+    <div>
+        <input class="submitBtn" id="addPerformanceSubmit" type="submit" value="Add Performance" />
+    </div>
+</form>

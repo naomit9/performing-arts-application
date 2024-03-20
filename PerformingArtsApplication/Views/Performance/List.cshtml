@@ -1,0 +1,22 @@
+﻿﻿@model IEnumerable<PerformingArtsApplication.Models.PerformanceDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Performances</h2>
+
+<!--search bar-->
+<form action="/Performance/List" method="GET">
+    <input type="text" name="SearchKey" />
+    <input class="searchBtn" type="submit" value="Search" />
+</form>
+
+@foreach (PerformingArtsApplication.Models.PerformanceDto Performance in Model)
+{
+    <div><a href="/Performance/Details/@Performance.PerformanceId">@Performance.PerformanceName</a></div>
+}
+
+<div>
+    <a href="/Performance/New">Add Performance +</a>
+</div>

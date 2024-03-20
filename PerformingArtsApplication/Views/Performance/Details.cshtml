@@ -1,0 +1,18 @@
+﻿﻿@model PerformingArtsApplication.Models.PerformanceDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<a class="backLink" href="/Performance/List">< All Performances</a>
+
+<h2>@Model.PerformanceName</h2>
+
+<div class="actionBtns">
+    <div class="updateBtn">
+        <a href="/Performance/Edit/@Model.PerformanceId">Update</a>
+    </div>
+    <div class="deleteBtn">
+        <a href="/Performance/DeleteConfirm/@Model.PerformanceId">Delete</a>
+    </div>
+</div>

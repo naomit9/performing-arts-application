@@ -19,4 +19,11 @@ namespace PerformingArtsApplication.Models
         //A performance can be in many showcases
         public ICollection<Showcase> Showcases { get; set; }
     }
+
+    public class PerformanceDto
+    {
+        public int PerformanceId { get; set; }
+
+        public string PerformanceName { get; set; }
+    }
 }

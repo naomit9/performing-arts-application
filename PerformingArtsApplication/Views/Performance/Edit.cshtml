@@ -1,0 +1,55 @@
+﻿﻿@model PerformingArtsApplication.Models.PerformanceDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script>
+    //client side validation
+    function validatePerformanceForm() {
+        var validPerformanceData = true;
+
+        var PerformanceId = document.getElementById("PerformanceId").value;
+        var PerformanceIdError = document.getElementById("PerformanceIdError");
+
+        if (PerformanceId === "") {
+            PerformanceIdError.style.display = "block";
+            validPerformanceData = false;
+        } else {
+            PerformanceIdError.style.display = "none";
+        }
+
+        var PerformanceName = document.getElementById("PerformanceName").value;
+        var PerformanceNameError = document.getElementById("PerformanceNameError");
+
+        if (PerformanceName === "") {
+            PerformanceNameError.style.display = "block";
+            validPerformanceData = false;
+        } else {
+            PerformanceNameError.style.display = "none";
+        }
+
+        if (validPerformanceData === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+
+<a class="backLink" href="/Performance/Details/@Model.PerformanceId">< Back</a>
+
+<h2>Edit Performance</h2>
+
+<form action="/Performance/Update/@Model.PerformanceId" method="POST" onsubmit="return validatePerformanceForm()">
+    <!-- hidden input to send PerformanceId as part of POST information -->
+    <input type="text" style="display:none;" name="PerformanceId" value="@Model.PerformanceId" />
+    <div class="formInput">
+        <p id="PerformanceNameError" style="display:none; color:red;">*Please enter a performance name</p>
+        <label>Performance Name</label>
+        <input type="text" name="PerformanceName" id="PerformanceName" value="@Model.PerformanceName"/>
+    </div>
+    <div>
+        <input class="submitBtn" id="addPerformanceSubmit" type="submit" value="Update" />
+    </div>
+</form>
