@@ -68,11 +68,6 @@ namespace PerformingArtsApplication.Controllers
         [HttpPost]
         public ActionResult Create(Teacher Teacher)
         {
-            //Debug.WriteLine("the jsonpayload is: ");
-            //Debug.WriteLine(Teacher.TeacherId);
-            //add new teacher to system 
-            //curl -H "Content-type:application/json" -d @teacher.json https://localhost:44304/api/teacherdata/addteacher
-
             string url = "addteacher";
 
             string jsonpayload = jss.Serialize(Teacher);
@@ -80,9 +75,8 @@ namespace PerformingArtsApplication.Controllers
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
-
-            //client.PostAsync(url, content);
             HttpResponseMessage response = client.PostAsync(url, content).Result;
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("List");

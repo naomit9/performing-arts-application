@@ -3,22 +3,71 @@
     ViewBag.Title = "Create";
 }
 
+<script>
+    //client side validation
+    function validateTeacherForm() {
+        var validTeacherData = true;
+
+        var TeacherId = document.getElementById("TeacherId").value;
+        var TeacherIdError = document.getElementById("TeacherIdError");
+
+        if (TeacherId === "") {
+            TeacherIdError.style.display = "block";
+            validTeacherData = false;
+        } else {
+            TeacherIdError.style.display = "none";
+        }
+
+        var FirstName = document.getElementById("FirstName").value;
+        var FirstNameError = document.getElementById("FirstNameError");
+
+        if (FirstName === "") {
+            FirstNameError.style.display = "block";
+            validFirstData = false;
+        } else {
+            FirstNameError.style.display = "none";
+        }
+
+        var LastName = document.getElementById("LastName").value;
+        var LastNameError = document.getElementById("LastNameError");
+
+        if (LastName === "") {
+            LastNameError.style.display = "block";
+            validLastData = false;
+        } else {
+            LastNameError.style.display = "none";
+        }
+
+        if (validTeacherData === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+
 <h2>Add Teacher</h2>
 
-<form action="/Teacher/Create" method="POST">
+<form action="/Teacher/Create" method="POST" onsubmit="return validateTeacherForm()">
 
-    @*<div>
-            <label>Teacher ID: </label> <input type="number" name="TeacherId" />
-        </div>*@
-    <div>
-        <label>First Name: </label> <input name="FirstName" />
+    <div class="formInput">
+        <p id="TeacherIdError" style="display:none; color:red;">*Please enter a teacher id</p>
+        <label>Teacher ID: </label> 
+        <input type="number" name="TeacherId" />
     </div>
-    <div>
-        <label>Last Name: </label> <input name="LastName" />
+    <div class="formInput">
+        <p id="FirstNameError" style="display:none; color:red;">*Please enter a first name</p>
+        <label>First Name: </label> 
+        <input name="FirstName" />
+    </div>
+    <div class="formInput">
+        <p id="FirstNameError" style="display:none; color:red;">*Please enter a last name</p>
+        <label>Last Name: </label> 
+        <input name="LastName" />
     </div>
 
     <div>
-        <input type="submit" value="Add Teacher" />
+        <input class="submitBtn" id="addTeacherSubmit" type="submit" value="Add Teacher" />
 
     </div>
 </form>
