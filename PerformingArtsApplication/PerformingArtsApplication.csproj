@@ -327,10 +327,15 @@
     <Content Include="Views\Performance\Details.cshtml" />
     <Content Include="Views\Performance\Edit.cshtml" />
     <Content Include="Views\Performance\DeleteConfirm.cshtml" />
+    <Content Include="Views\Lesson\List.cshtml" />
+    <Content Include="Views\Lesson\New.cshtml" />
+    <Content Include="Views\Lesson\Error.cshtml" />
+    <Content Include="Views\Lesson\Edit.cshtml" />
+    <Content Include="Views\Lesson\Details.cshtml" />
+    <Content Include="Views\Lesson\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Lesson\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
