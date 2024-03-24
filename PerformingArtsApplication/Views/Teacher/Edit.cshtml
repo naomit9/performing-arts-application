@@ -1,0 +1,24 @@
+﻿@model PerformingArtsApplication.Models.ViewModels.UpdateTeacher
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Teacher</h2>
+
+<form action="/Teacher/Update/@Model.SelectedTeacher.TeacherId" method="POST">
+
+    <div style="display:none">
+        <input type="number" name="TeacherId" value="@Model.SelectedTeacher.TeacherId" />
+    </div>
+    <div>
+        <label>First Name: </label> <input type="text" name="FirstName" value="@Model.SelectedTeacher.FirstName" />
+    </div>
+    <div>
+        <label>Last Time: </label> <input type="text" name="LastName" value="@Model.SelectedTeacher.LastName" />
+    </div>
+
+    <div>
+        <input type="submit" value="Update Teacher" />
+    </div>
+</form>
