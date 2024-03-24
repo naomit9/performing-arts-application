@@ -22,12 +22,13 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Lesson/List
+        //public ActionResult List(string SearchKey = null)
         public ActionResult List(string SearchKey = null)
         {
             //communicate with lesson data to retrieve list of animals
             //curl https://localhost:44304/api/lessondata/listlessons
 
-            string url = "listlessons/" + SearchKey;
+            string url = "lessondata/listlessons/" + SearchKey;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<LessonDto> Lessons = response.Content.ReadAsAsync<IEnumerable<LessonDto>>().Result;

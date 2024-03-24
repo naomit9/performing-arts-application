@@ -19,11 +19,17 @@ namespace PerformingArtsApplication.Controllers
 
         // GET: api/LessonData/ListLessons
         [HttpGet]
-        [ResponseType(typeof(LessonDto))]
-        public IHttpActionResult ListLessons()
+        [Route("api/lessondata/listlessons/{SearchKey?}")]
+        public IEnumerable<LessonDto> ListLessons(string SearchKey = null)
         {
             List<Lesson> Lessons = db.Lessons.ToList();
             List<LessonDto> LessonDtos = new List<LessonDto>();
+
+            if (!string.IsNullOrEmpty(SearchKey))
+            {
+                Lessons = db.Lessons.Where
+                    (l => l.LessonName.Contains(SearchKey)).ToList();
+            }
 
             Lessons.ForEach(l => LessonDtos.Add(new LessonDto()
             {
@@ -34,7 +40,7 @@ namespace PerformingArtsApplication.Controllers
                 TeacherId = l.TeacherId
             }));
 
-            return Ok(LessonDtos);
+            return LessonDtos;
         }
 
         // GET: api/LessonData/FindLesson/5
