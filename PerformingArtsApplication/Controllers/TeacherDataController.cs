@@ -114,12 +114,6 @@ namespace PerformingArtsApplication.Controllers
                 return BadRequest(ModelState);
             }
 
-            //server side validation
-            if (Teacher.TeacherId <= 0 || string.IsNullOrEmpty(Teacher.FirstName))
-            {
-                return BadRequest(ModelState);
-            }
-
             db.Teachers.Add(Teacher);
             db.SaveChanges();
 
