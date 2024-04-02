@@ -1,0 +1,16 @@
+﻿﻿@model PerformingArtsApplication.Models.StudentDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<a class="backLink" href="/Student/Details/@Model.StudentId">< Back</a>
+
+<h2>Are you sure you want to delete this student?</h2>
+
+<h2>@Model.FirstName @Model.LastName</h2>
+<p>Birthday: @Model.Birthday.ToString("yyyy-MM-dd")</p>
+
+<form action="/Student/Delete/@Model.StudentId" method="POST">
+    <input class="confirmDeleteBtn" type="submit" value="Confirm Delete" />
+</form>
