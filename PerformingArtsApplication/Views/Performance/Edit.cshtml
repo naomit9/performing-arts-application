@@ -9,16 +9,6 @@
     function validatePerformanceForm() {
         var validPerformanceData = true;
 
-        var PerformanceId = document.getElementById("PerformanceId").value;
-        var PerformanceIdError = document.getElementById("PerformanceIdError");
-
-        if (PerformanceId === "") {
-            PerformanceIdError.style.display = "block";
-            validPerformanceData = false;
-        } else {
-            PerformanceIdError.style.display = "none";
-        }
-
         var PerformanceName = document.getElementById("PerformanceName").value;
         var PerformanceNameError = document.getElementById("PerformanceNameError");
 
@@ -50,6 +40,6 @@
         <input type="text" name="PerformanceName" id="PerformanceName" value="@Model.PerformanceName"/>
     </div>
     <div>
-        <input class="submitBtn" id="addPerformanceSubmit" type="submit" value="Update" />
+        <input class="submitBtn" id="editPerformanceSubmit" type="submit" value="Update" />
     </div>
 </form>

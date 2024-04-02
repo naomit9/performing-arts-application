@@ -1,0 +1,19 @@
+﻿﻿@model PerformingArtsApplication.Models.StudentDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<a class="backLink" href="/Student/List">< All Students</a>
+
+<h2>@Model.FirstName @Model.LastName</h2>
+<p>Birthday: @Model.Birthday.ToString("yyyy-MM-dd")</p>
+
+<div class="actionBtns">
+    <div class="updateBtn">
+        <a href="/Student/Edit/@Model.StudentId">Update</a>
+    </div>
+    <div class="deleteBtn">
+        <a href="/Student/DeleteConfirm/@Model.StudentId">Delete</a>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿﻿@model IEnumerable<PerformingArtsApplication.Models.StudentDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Students</h2>
+
+<!--search bar-->
+<form action="/Student/List" method="GET">
+    <input type="text" name="SearchKey" />
+    <input class="searchBtn" type="submit" value="Search" />
+</form>
+
+@foreach (PerformingArtsApplication.Models.StudentDto Student in Model)
+{
+    <div><a href="/Student/Details/@Student.StudentId">@Student.FirstName @Student.LastName</a></div>
+}
+
+<div>
+    <a href="/Student/New">Add Student +</a>
+</div>
