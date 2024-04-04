@@ -1,4 +1,4 @@
-﻿﻿@model PerformingArtsApplication.Models.PerformanceDto
+﻿﻿@model PerformingArtsApplication.Models.ViewModels.DetailsPerformance
 
 @{
     ViewBag.Title = "Details";
@@ -6,13 +6,35 @@
 
 <a class="backLink" href="/Performance/List">< All Performances</a>
 
-<h2>@Model.PerformanceName</h2>
-
 <div class="actionBtns">
     <div class="updateBtn">
-        <a href="/Performance/Edit/@Model.PerformanceId">Update</a>
+        <a href="/Performance/Edit/@Model.SelectedPerformance.PerformanceId">Update</a>
     </div>
     <div class="deleteBtn">
-        <a href="/Performance/DeleteConfirm/@Model.PerformanceId">Delete</a>
+        <a href="/Performance/DeleteConfirm/@Model.SelectedPerformance.PerformanceId">Delete</a>
     </div>
+</div>
+
+<h2>@Model.SelectedPerformance.PerformanceName</h2>
+
+<div>
+    <h3>Students</h3>
+    @foreach (var student in Model.StudentsInPerformance)
+    {
+        <a class="item" href="/Student/Details/@student.StudentId">@student.FirstName @student.LastName</a>
+        <a class="xIcon" href="/Performance/Unassociate/@Model.SelectedPerformance.PerformanceId?StudentId=@student.StudentId">[x]</a><br />
+    }
+</div>
+
+<div>
+    <h3>Add new student to @Model.SelectedPerformance.PerformanceName</h3>
+    <form action="/Performance/Associate/@Model.SelectedPerformance.PerformanceId" method="POST">
+        <select name="StudentId">
+            @foreach (var student in @Model.AvailableStudents)
+            {
+                <option value="@student.StudentId">@student.FirstName @student.LastName</option>
+            }
+        </select>
+        <input type="submit" value="Associate Student" id="associateBtn" />
+    </form>
 </div>

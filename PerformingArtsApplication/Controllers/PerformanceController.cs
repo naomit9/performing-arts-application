@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 using PerformingArtsApplication.Models;
 using Newtonsoft.Json;
 using PerformingArtsApplication.Migrations;
+using PerformingArtsApplication.Models.ViewModels;
 
 namespace PerformingArtsApplication.Controllers
 {
@@ -46,7 +47,10 @@ namespace PerformingArtsApplication.Controllers
         // GET: Performance/Details/5
         public ActionResult Details(int id)
         {
-            // communicate with performance data api to retrieve one performance
+            DetailsPerformance ViewModel = new DetailsPerformance();
+
+            // get one performance in the system through an HTTP request
+            // GET {resource}/api/performancedata/findperformance/{id}
             // curl https://localhost:44304/api/performancedata/findperformance/{id}
 
             // set the url
@@ -56,7 +60,57 @@ namespace PerformingArtsApplication.Controllers
 
             PerformanceDto SelectedPerformance = response.Content.ReadAsAsync<PerformanceDto>().Result;
 
-            return View(SelectedPerformance);
+            ViewModel.SelectedPerformance = SelectedPerformance;
+
+            // show associated students with this performance
+            url = "studentdata/liststudentsforperformance/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<StudentDto> StudentsInPerformance = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+
+            ViewModel.StudentsInPerformance = StudentsInPerformance;
+
+            url = "studentdata/liststudentsnotinperformance/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<StudentDto> AvailableStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+
+            ViewModel.AvailableStudents = AvailableStudents;
+
+            //Views/Performance/List.cshtml
+            return View(ViewModel);
+        }
+
+        //POST: Performance/Associate/{performanceid}
+        [HttpPost]
+        public ActionResult Associate(int id, int StudentId)
+        {
+            /*Debug.WriteLine("Attempting to associate performance: " + id + " with student: " + StudentId);*/
+
+            // call api to add student to performance
+            string url = "performancedata/addstudenttoperformance/" + id + "/" + StudentId;
+
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("Details/" + id);
+        }
+
+        //GET: Performance/UnAssociate/{id}?StudentId={studentid}
+        [HttpGet]
+        public ActionResult UnAssociate(int id, int StudentId)
+        {
+            /*Debug.WriteLine("Attempting to unassociate performance: " + id + " with student: " + StudentId);*/
+
+            // call api to remove student from performance
+            string url = "performancedata/removestudentfromperformance/" + id + "/" + StudentId;
+
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("Details/" + id);
         }
 
         public ActionResult Error()

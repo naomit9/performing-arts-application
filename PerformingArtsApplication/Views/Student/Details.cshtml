@@ -1,4 +1,4 @@
-﻿﻿@model PerformingArtsApplication.Models.StudentDto
+﻿﻿@model PerformingArtsApplication.Models.ViewModels.DetailsStudent
 
 @{
     ViewBag.Title = "Details";
@@ -6,14 +6,22 @@
 
 <a class="backLink" href="/Student/List">< All Students</a>
 
-<h2>@Model.FirstName @Model.LastName</h2>
-<p>Birthday: @Model.Birthday.ToString("yyyy-MM-dd")</p>
-
 <div class="actionBtns">
     <div class="updateBtn">
-        <a href="/Student/Edit/@Model.StudentId">Update</a>
+        <a href="/Student/Edit/@Model.SelectedStudent.StudentId">Update</a>
     </div>
     <div class="deleteBtn">
-        <a href="/Student/DeleteConfirm/@Model.StudentId">Delete</a>
+        <a href="/Student/DeleteConfirm/@Model.SelectedStudent.StudentId">Delete</a>
     </div>
+</div>
+
+<h2>@Model.SelectedStudent.FirstName @Model.SelectedStudent.LastName</h2>
+<p>Birthday: @Model.SelectedStudent.Birthday.ToString("yyyy-MM-dd")</p>
+
+<div>
+    <h3>Performances</h3>
+    @foreach (var performance in Model.PerformancesForStudent)
+    {
+        <a class="item" href="/Performance/Details/@performance.PerformanceId">@performance.PerformanceName</a><br />
+    }
 </div>

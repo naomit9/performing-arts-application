@@ -59,6 +59,73 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all students in the system related to a particular performance
+        /// </summary>
+        /// <returns>
+        ///     Returns all students in the database related to a particular performance id including their student id, first name, last name, and birthday
+        /// </returns>
+        /// <param name="id"> The performances's primary key, performance id (as an integer) </param>
+        /// <example>
+        ///     GET: api/StudentData/ListStudentsForPerformance/2
+        /// </example>
+        [HttpGet]
+        public IEnumerable<StudentDto> ListStudentsForPerformance(int id)
+        {
+            //select all students that are in the performance that match the id
+            List<Student> Students = db.Students.Where(
+                s => s.Performances.Any(
+                    p => p.PerformanceId == id)
+                ).ToList();
+
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Students.ForEach(s => StudentDtos.Add(new StudentDto()
+            {
+                StudentId = s.StudentId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Birthday = s.Birthday
+            }
+            ));
+
+            return StudentDtos;
+        }
+
+        /// <summary>
+        ///     Returns a list of all students in the system not related to a particular performance
+        /// </summary>
+        /// <returns>
+        ///     Returns all students in the database not related to a particular performance id including their student id, first name, last name, and birthday
+        /// </returns>
+        /// <param name="id"> The performances's primary key, performance id (as an integer) </param>
+        /// <example>
+        ///     GET: api/StudentData/ListStudentsNotInPerformance/2
+        /// </example>
+        [HttpGet]
+        public IEnumerable<StudentDto> ListStudentsNotInPerformance(int id)
+        {
+            //select all students that are not in the performance that match the id
+            List<Student> Students = db.Students.Where(
+                s => !s.Performances.Any(
+                    p => p.PerformanceId == id)
+                ).ToList();
+
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Students.ForEach(s => StudentDtos.Add(new StudentDto()
+            {
+                StudentId = s.StudentId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Birthday = s.Birthday
+            }
+            ));
+
+            return StudentDtos;
+        }
+
+
+        /// <summary>
         ///     Recieves a student id and returns the corresponding student
         /// </summary>
         /// <param name="id"> The student's primary key, student id (as an integer) </param>

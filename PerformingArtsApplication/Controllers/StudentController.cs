@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Diagnostics;
+using PerformingArtsApplication.Models.ViewModels;
 
 namespace PerformingArtsApplication.Controllers
 {
@@ -45,7 +46,10 @@ namespace PerformingArtsApplication.Controllers
         // GET: Student/Details/5
         public ActionResult Details(int id)
         {
-            // communicate with student data api to retrieve one student
+            DetailsStudent ViewModel = new DetailsStudent();
+
+            // get one student in the system through an HTTP request
+            // GET {resource}/api/studentdata/findstudent/{id}
             // curl https://localhost:44304/api/studentdata/findstudent/{id}
 
             // set the url
@@ -55,7 +59,17 @@ namespace PerformingArtsApplication.Controllers
 
             StudentDto SelectedStudent = response.Content.ReadAsAsync<StudentDto>().Result;
 
-            return View(SelectedStudent);
+            ViewModel.SelectedStudent = SelectedStudent;
+
+            //show all performances associated with this student
+            url = "performancedata/listperformancesforstudent/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<PerformanceDto> PerformancesForStudent = response.Content.ReadAsAsync<IEnumerable<PerformanceDto>>().Result;
+
+            ViewModel.PerformancesForStudent = PerformancesForStudent;
+
+            //Views/Student/List.cshtml
+            return View(ViewModel);
         }
 
         public ActionResult Error()
