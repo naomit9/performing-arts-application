@@ -56,6 +56,99 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all performances in the system related to a particular student
+        /// </summary>
+        /// <returns>
+        ///     Returns all performances in the database associated with a specific student id including their performance id and performance name
+        /// </returns>
+        /// <param name="id"> The student's primary key, student id (as an integer) </param>
+        /// <example>
+        ///     GET: api/PerformanceData/ListPerformancesForStudent/1
+        /// </example>
+        [HttpGet]
+        public IEnumerable<PerformanceDto> ListPerformancesForStudent(int id)
+        {
+            //select all performances that have the student that matches with the id in it
+            List<Performance> Performances = db.Performances.Where(
+                p => p.Students.Any(
+                    s => s.StudentId == id
+                )).ToList();
+
+            List<PerformanceDto> PerformanceDtos = new List<PerformanceDto>();
+
+            Performances.ForEach(p => PerformanceDtos.Add(new PerformanceDto()
+            {
+                PerformanceId = p.PerformanceId,
+                PerformanceName = p.PerformanceName
+            }
+            ));
+
+            return PerformanceDtos;
+        }
+
+        /// <summary>
+        ///     Associate a particular student with a particular performance
+        /// </summary>
+        /// <param name="performanceid"> The performance's primary key, performance id (as an integer) </param>
+        /// <param name="studentid"> The student's primary key, student id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/performancedata/AddStudentToPerformance/{performanceid}/{studentid}")]
+        public IHttpActionResult AddStudentToPerformance(int performanceid, int studentid)
+        {
+            Performance SelectedPerformance = db.Performances.Include
+                (p => p.Students).Where
+                (p => p.PerformanceId == performanceid).FirstOrDefault();
+
+            Student SelectedStudent = db.Students.Find(studentid);
+
+            if (SelectedPerformance == null || SelectedStudent == null)
+            {
+                return NotFound();
+            }
+
+            SelectedPerformance.Students.Add(SelectedStudent);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
+        ///     Remove an association between a particular student with a particular performance
+        /// </summary>
+        /// <param name="performanceid"> The performance's primary key, performance id (as an integer) </param>
+        /// <param name="studentid"> The student's primary key, student id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/performancedata/RemoveStudentFromPerformance/{performanceid}/{studentid}")]
+        public IHttpActionResult RemoveStudentFromPerformance(int performanceid, int studentid)
+        {
+            Performance SelectedPerformance = db.Performances.Include
+                (p => p.Students).Where
+                (p => p.PerformanceId == performanceid).FirstOrDefault();
+
+            Student SelectedStudent = db.Students.Find(studentid);
+
+            if (SelectedPerformance == null || SelectedStudent == null)
+            {
+                return NotFound();
+            }
+
+            SelectedPerformance.Students.Remove(SelectedStudent);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
         ///     Recieves a performance id and returns the corresponding performance
         /// </summary>
         /// <param name="id"> The performance's primary key, performance id (as an integer) </param>
