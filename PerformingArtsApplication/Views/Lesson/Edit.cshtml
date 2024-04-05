@@ -1,0 +1,95 @@
+﻿@model PerformingArtsApplication.Models.LessonDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script>
+    //client side validation
+    function validateLessonForm() {
+        var validLessonData = true;
+
+        var LessonId = document.getElementById("LessonId").value;
+        var LessonIdError = document.getElementById("LessonIdError");
+
+        if (LessonId === "") {
+            LessonIdError.style.display = "block";
+            validLessonData = false;
+        } else {
+            LessonIdError.style.display = "none";
+        }
+
+        var LessonName = document.getElementById("LessonName").value;
+        var LessonNameError = document.getElementById("LessonNameError");
+
+        if (LessonName === "") {
+            LessonNameError.style.display = "block";
+            validLessonData = false;
+        } else {
+            LessonNameError.style.display = "none";
+        }
+
+        var LessonTime = document.getElementById("LessonTime").value;
+        var LessonTimeError = document.getElementById("LessonTimeError");
+
+        if (LessonTime === "") {
+            LessonTimeError.style.display = "block";
+            validLessonData = false;
+        } else {
+            LessonTimeError.style.display = "none";
+        }
+
+        var Room = document.getElementById("Room").value;
+        var RoomError = document.getElementById("Room");
+
+        if (Room === "") {
+            Room.style.display = "block";
+            validLessonData = false;
+        } else {
+            RoomError.style.display = "none";
+        }
+
+        var TeacherId = document.getElementById("TeacherId").value;
+        var TeacherIdError = document.getElementById("TeacherIdError");
+
+        if (TeacherId === "") {
+            TeacherIdError.style.display = "block";
+            validLessonData = false;
+        } else {
+            TeacherIdError.style.display = "none";
+        }
+
+        if (validLessonData === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+
+<a class="backLink" href="/Lesson/Details/@Model.LessonId">< Back</a>
+
+<h2>Update Lesson</h2>
+
+<form action="/Lesson/Update/@Model.LessonId" method="POST">
+
+    <div style="display:none">
+        <input type="number" name="LessonId" value="@Model.LessonId" />
+    </div>
+    <div>
+        <label>Lesson Name: </label> <input type="text" name="LessonName" value="@Model.LessonName" />
+    </div>
+    <div>
+        <label>Lesson Time: </label> <input type="datetime" name="LessonTime" value="@Model.LessonTime" />
+    </div>
+    <div>
+        <label>Room: </label> <input type="number" name="Room" value="@Model.Room" />
+    </div>
+    <div>
+        <label>Teacher ID: </label> <input type="number" name="TeacherId" value="@Model.TeacherId" />
+    </div>
+
+    <div>
+        <input type="submit" value="Update Lesson" />
+    </div>
+</form>

@@ -183,11 +183,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LessonController.cs" />
+    <Compile Include="Controllers\LessonDataController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerformanceController.cs" />
     <Compile Include="Controllers\PerformanceDataController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\StudentDataController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\TeacherDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -244,8 +248,10 @@
     <Compile Include="Models\Showcase.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\ViewModels\DetailsLesson.cs" />
     <Compile Include="Models\ViewModels\DetailsPerformance.cs" />
     <Compile Include="Models\ViewModels\DetailsStudent.cs" />
+    <Compile Include="Models\ViewModels\DetailsTeacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -332,9 +338,22 @@
     <Content Include="Views\Student\Details.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
     <Content Include="Views\Student\Error.cshtml" />
+    <Content Include="Views\Teacher\New.cshtml" />
+    <Content Include="Views\Teacher\List.cshtml" />
+    <Content Include="Views\Teacher\Edit.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
+    <Content Include="Views\Teacher\DeleteConfirm.cshtml" />
+    <Content Include="Views\Teacher\Error.cshtml" />
+    <Content Include="Views\Lesson\New.cshtml" />
+    <Content Include="Views\Lesson\List.cshtml" />
+    <Content Include="Views\Lesson\Edit.cshtml" />
+    <Content Include="Views\Lesson\Details.cshtml" />
+    <Content Include="Views\Lesson\DeleteConfirm.cshtml" />
+    <Content Include="Views\Lesson\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\LessonData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
