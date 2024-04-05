@@ -27,4 +27,19 @@ namespace PerformingArtsApplication.Models
         //A lesson can have many students in it
         public ICollection<Student> Students { get; set; }
     }
+
+    public class LessonDto
+    {
+        public int LessonId { get; set; }
+
+        public string LessonName { get; set; }
+
+        public DateTime LessonTime { get; set; }
+
+        public int Room { get; set; }
+
+        public int TeacherId { get; set; }
+
+
+    }
 }
