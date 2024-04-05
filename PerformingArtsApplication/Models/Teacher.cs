@@ -17,4 +17,13 @@ namespace PerformingArtsApplication.Models
         public string LastName { get; set; }
         
     }
+
+    public class TeacherDto
+    {
+        public int TeacherId { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+    }
 }
