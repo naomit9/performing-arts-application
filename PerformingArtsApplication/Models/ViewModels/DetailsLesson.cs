@@ -8,5 +8,7 @@ namespace PerformingArtsApplication.Models.ViewModels
     public class DetailsLesson
     {
         public LessonDto SelectedLesson { get; set; }
+        public IEnumerable<StudentDto> StudentsInLesson { get; set; }
+        public IEnumerable<StudentDto> AvailableStudents { get; set; }
     }
 }

@@ -75,7 +75,7 @@ namespace PerformingArtsApplication.Controllers
 
             ViewModel.AvailableStudents = AvailableStudents;
 
-            //Views/Performance/List.cshtml
+            //Views/Performance/Details.cshtml
             return View(ViewModel);
         }
 

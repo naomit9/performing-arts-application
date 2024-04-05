@@ -44,7 +44,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var Teacher in Model)
+        @foreach (PerformingArtsApplication.Models.TeacherDto Teacher in Model)
         {
             <tr>
                 <td><a href="/Teacher/Details/@Teacher.TeacherId">@Teacher.TeacherId</a></td>

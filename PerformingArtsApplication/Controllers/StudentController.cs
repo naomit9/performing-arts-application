@@ -61,6 +61,13 @@ namespace PerformingArtsApplication.Controllers
 
             ViewModel.SelectedStudent = SelectedStudent;
 
+            //show all lessons associated with this student
+            url = "lessondata/listlessonsforstudent/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<LessonDto> LessonsForStudent = response.Content.ReadAsAsync<IEnumerable<LessonDto>>().Result;
+
+            ViewModel.LessonsForStudent = LessonsForStudent;
+
             //show all performances associated with this student
             url = "performancedata/listperformancesforstudent/" + id;
             response = client.GetAsync(url).Result;
@@ -68,7 +75,7 @@ namespace PerformingArtsApplication.Controllers
 
             ViewModel.PerformancesForStudent = PerformancesForStudent;
 
-            //Views/Student/List.cshtml
+            //Views/Student/Details.cshtml
             return View(ViewModel);
         }
 

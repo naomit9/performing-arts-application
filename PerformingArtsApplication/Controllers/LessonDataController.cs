@@ -42,6 +42,102 @@ namespace PerformingArtsApplication.Controllers
             return LessonDtos;
         }
 
+        /// <summary>
+        ///     Returns a list of all lessons in the system related to a particular student
+        /// </summary>
+        /// <returns>
+        ///     Returns all lessons in the database associated with a specific student id including their lesson id and lesson name, lesson time, room, and teacher id
+        /// </returns>
+        /// <param name="id"> The student's primary key, student id (as an integer) </param>
+        /// <example>
+        ///     GET: api/LessonData/ListLessonsForStudent/1
+        /// </example>
+        [HttpGet]
+        public IEnumerable<LessonDto> ListLessonsForStudent(int id)
+        {
+            //select all lessons that have the student that matches with the id in it
+            List<Lesson> Lessons = db.Lessons.Where(
+                l => l.Students.Any(
+                    s => s.StudentId == id
+                )).ToList();
+
+            List<LessonDto> LessonDtos = new List<LessonDto>();
+
+            Lessons.ForEach(l => LessonDtos.Add(new LessonDto()
+            {
+                LessonId = l.LessonId,
+                LessonName = l.LessonName,
+                LessonTime = l.LessonTime,
+                Room = l.Room,
+                TeacherId = l.TeacherId
+            }
+            ));
+
+            return LessonDtos;
+        }
+
+        /// <summary>
+        ///     Associate a particular student with a particular lesson
+        /// </summary>
+        /// <param name="lessonid"> The lesson's primary key, lesson id (as an integer) </param>
+        /// <param name="studentid"> The student's primary key, student id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/lessondata/AddStudentToLesson/{lessonid}/{studentid}")]
+        public IHttpActionResult AddStudentToLesson(int lessonid, int studentid)
+        {
+            Lesson SelectedLesson = db.Lessons.Include
+                (l => l.Students).Where
+                (l => l.LessonId == lessonid).FirstOrDefault();
+
+            Student SelectedStudent = db.Students.Find(studentid);
+
+            if (SelectedLesson == null || SelectedStudent == null)
+            {
+                return NotFound();
+            }
+
+            SelectedLesson.Students.Add(SelectedStudent);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
+        ///     Remove an association between a particular student with a particular lesson
+        /// </summary>
+        /// <param name="lessonid"> The lesson's primary key, lesson id (as an integer) </param>
+        /// <param name="studentid"> The student's primary key, student id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/lessondata/RemoveStudentFromLesson/{lessonid}/{studentid}")]
+        public IHttpActionResult RemoveStudentFromLesson(int lessonid, int studentid)
+        {
+            Lesson SelectedLesson = db.Lessons.Include
+                (l => l.Students).Where
+                (l => l.LessonId == lessonid).FirstOrDefault();
+
+            Student SelectedStudent = db.Students.Find(studentid);
+
+            if (SelectedLesson == null || SelectedStudent == null)
+            {
+                return NotFound();
+            }
+
+            SelectedLesson.Students.Remove(SelectedStudent);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
         // GET: api/LessonData/FindLesson/5
         [HttpGet]
         [ResponseType(typeof(LessonDto))]

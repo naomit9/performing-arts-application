@@ -25,3 +25,11 @@
         <a class="item" href="/Performance/Details/@performance.PerformanceId">@performance.PerformanceName</a><br />
     }
 </div>
+
+<div>
+    <h3>Lessons</h3>
+    @foreach (var lesson in Model.LessonsForStudent)
+    {
+        <a class="item" href="/Lesson/Details/@lesson.LessonId">@lesson.LessonName</a><br />
+    }
+</div>
