@@ -49,6 +49,12 @@ namespace PerformingArtsApplication.Controllers
             TeacherDto SelectedTeacher = response.Content.ReadAsAsync<TeacherDto>().Result;
             ViewModel.SelectedTeacher = SelectedTeacher;
 
+            // showcase all lessons in the system taught by the selected teacher
+            url = "lessondata/listlessonsforteacher/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<LessonDto> LessonsTaught = response.Content.ReadAsAsync<IEnumerable<LessonDto>>().Result; ;
+            ViewModel.LessonsTaught = LessonsTaught;
+
             return View(ViewModel);
         }
 

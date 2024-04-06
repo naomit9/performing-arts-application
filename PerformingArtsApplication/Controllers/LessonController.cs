@@ -103,7 +103,14 @@ namespace PerformingArtsApplication.Controllers
         // GET: Lesson/New
         public ActionResult New()
         {
-            return View();
+            // access information all teachers in the system to choose from when creating a new lesson
+            // GET: api/teacherdata/listteachers
+
+            string url = "teacherdata/listteachers";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<TeacherDto> TeacherOptions = response.Content.ReadAsAsync<IEnumerable<TeacherDto>>().Result;
+
+            return View(TeacherOptions);
         }
 
         // POST: Lesson/Create

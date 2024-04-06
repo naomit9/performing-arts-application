@@ -4,19 +4,43 @@
     ViewBag.Title = "Details";
 }
 
-<a class="backLink" href="/Student/List">< All Students</a>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-<div class="actionBtns">
-    <div class="updateBtn">
-        <a href="/Student/Edit/@Model.SelectedStudent.StudentId">Update</a>
-    </div>
-    <div class="deleteBtn">
-        <a href="/Student/DeleteConfirm/@Model.SelectedStudent.StudentId">Delete</a>
-    </div>
-</div>
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
 
-<h2>@Model.SelectedStudent.FirstName @Model.SelectedStudent.LastName</h2>
-<p>Birthday: @Model.SelectedStudent.Birthday.ToString("yyyy-MM-dd")</p>
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<a href="/Student/List">Go back</a>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.SelectedStudent.StudentId</td>
+            <td>@Model.SelectedStudent.FirstName @Model.SelectedStudent.LastName</td>
+        </tr>
+    </tbody>
+
+</table>
+
+<br />
 
 <div>
     <h3>Performances</h3>
@@ -26,6 +50,8 @@
     }
 </div>
 
+<br />
+
 <div>
     <h3>Lessons</h3>
     @foreach (var lesson in Model.LessonsForStudent)
@@ -33,3 +59,9 @@
         <a class="item" href="/Lesson/Details/@lesson.LessonId">@lesson.LessonName</a><br />
     }
 </div>
+
+<br />
+
+<a href="/Student/Edit/@Model.SelectedStudent.StudentId" class="btn btn-success">Update</a>
+
+<a href="/Student/DeleteConfirm/@Model.SelectedStudent.StudentId" class="btn btn-danger">Delete</a>

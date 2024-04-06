@@ -43,6 +43,37 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all lessons in the system taught by a particular teacher
+        /// </summary>
+        /// <returns>
+        ///     Returns all lessons in the database associated with a specific teacher id including their lesson id and lesson name, lesson time, room, and teacher id
+        /// </returns>
+        /// <param name="id"> The teacher's primary key, teacher id (as an integer) </param>
+        /// <example>
+        ///     GET: api/LessonData/ListLessonsForTeacher
+        /// </example>
+        [HttpGet]
+        public IEnumerable<LessonDto> ListLessonsForTeacher(int id)
+        {
+            //select all from lessons
+            List<Lesson> Lessons = db.Lessons.Where(l => l.TeacherId == id).ToList();
+
+            List<LessonDto> LessonDtos = new List<LessonDto>();
+
+            Lessons.ForEach(l => LessonDtos.Add(new LessonDto()
+            {
+                LessonId = l.LessonId,
+                LessonName = l.LessonName,
+                LessonTime = l.LessonTime,
+                Room = l.Room,
+                TeacherId = l.TeacherId
+            }
+            ));
+
+            return LessonDtos;
+        }
+
+        /// <summary>
         ///     Returns a list of all lessons in the system related to a particular student
         /// </summary>
         /// <returns>
