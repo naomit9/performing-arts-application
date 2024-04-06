@@ -1,4 +1,4 @@
-﻿@model PerformingArtsApplication.Models.LessonDto
+﻿﻿@model PerformingArtsApplication.Models.ViewModels.DetailsLesson
 
 @{
     ViewBag.Title = "Details";
@@ -46,6 +46,32 @@
     </tbody>
 
 </table>
+
+<br />
+
+<div>
+    <h3>Students</h3>
+    @foreach (var student in Model.StudentsInLesson)
+    {
+        <a class="item" href="/Student/Details/@student.StudentId">@student.FirstName @student.LastName</a>
+        <a class="xIcon" href="/Lesson/Unassociate/@Model.SelectedLesson.LessonId?StudentId=@student.StudentId">[x]</a><br />
+    }
+</div>
+
+<br />
+
+<div>
+    <h4>Add new student to @Model.SelectedLesson.LessonName</h4>
+    <form action="/Lesson/Associate/@Model.SelectedLesson.LessonId" method="POST">
+        <select name="StudentId">
+            @foreach (var student in @Model.AvailableStudents)
+            {
+                <option value="@student.StudentId">@student.FirstName @student.LastName</option>
+            }
+        </select>
+        <input type="submit" value="Associate Student" id="associateBtn" />
+    </form>
+</div>
 
 <br />
 
