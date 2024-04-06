@@ -1,0 +1,42 @@
+﻿﻿@model IEnumerable<PerformingArtsApplication.Models.TeacherDto>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Lesson</h2>
+
+<form action="/Lesson/Create" method="POST">
+
+    @*<div>
+            <label>Lesson ID: </label> <input type="number" name="LessonName" />
+        </div>*@
+    <div>
+        <label>Lesson Name: </label> <input name="LessonName" />
+    </div>
+    <div>
+        <label>Lesson Time: </label> <input type="datetime" name="LessonTime" />
+    </div>
+    <div>
+        <label>Room: </label> <input type="number" name="Room" />
+    </div>
+@*    <div>
+        <label>Teacher ID: </label> <input type="number" name="TeacherId" />
+    </div>*@
+    <div>
+        <label>Teacher</label>
+        <!-- select teacher from list of teachers in the system -->
+        <select name="TeacherId">
+            <option value="">select a teacher</option>
+            @foreach (var teacher in Model)
+            {
+                <option value="@teacher.TeacherId">@teacher.FirstName @teacher.LastName</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <input type="submit" value="Add Lesson" />
+
+    </div>
+</form>

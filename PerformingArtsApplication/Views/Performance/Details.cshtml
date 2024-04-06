@@ -4,18 +4,43 @@
     ViewBag.Title = "Details";
 }
 
-<a class="backLink" href="/Performance/List">< All Performances</a>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-<div class="actionBtns">
-    <div class="updateBtn">
-        <a href="/Performance/Edit/@Model.SelectedPerformance.PerformanceId">Update</a>
-    </div>
-    <div class="deleteBtn">
-        <a href="/Performance/DeleteConfirm/@Model.SelectedPerformance.PerformanceId">Delete</a>
-    </div>
-</div>
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
 
-<h2>@Model.SelectedPerformance.PerformanceName</h2>
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<a href="/Performance/List">Go back</a>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Performance ID</th>
+            <th>Performance Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.SelectedPerformance.PerformanceId</td>
+            <td>@Model.SelectedPerformance.PerformanceName</td>
+        </tr>
+    </tbody>
+
+</table>
+
+<br />
 
 <div>
     <h3>Students</h3>
@@ -25,6 +50,8 @@
         <a class="xIcon" href="/Performance/Unassociate/@Model.SelectedPerformance.PerformanceId?StudentId=@student.StudentId">[x]</a><br />
     }
 </div>
+
+<br />
 
 <div>
     <h3>Add new student to @Model.SelectedPerformance.PerformanceName</h3>
@@ -38,3 +65,9 @@
         <input type="submit" value="Associate Student" id="associateBtn" />
     </form>
 </div>
+
+<br />
+
+<a href="/Performance/Edit/@Model.SelectedPerformance.PerformanceId" class="btn btn-success">Update</a>
+
+<a href="/Performance/DeleteConfirm/@Model.SelectedPerformance.PerformanceId" class="btn btn-danger">Delete</a>

@@ -1,0 +1,61 @@
+﻿@model PerformingArtsApplication.Models.ViewModels.DetailsTeacher
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<a href="/Teacher/List">Go back</a>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Teacher ID</th>
+            <th>First Name</th>
+            <th>Last Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.SelectedTeacher.TeacherId</td>
+            <td>@Model.SelectedTeacher.FirstName</td>
+            <td>@Model.SelectedTeacher.LastName</td>
+        </tr>
+    </tbody>
+
+</table>
+
+<br />
+
+<div>
+    <h3>Teaches</h3>
+    @foreach (var lesson in Model.LessonsTaught)
+    {
+        <div>
+            <a class="item" href="/Lesson/Details/@lesson.LessonId">@lesson.LessonName</a>
+        </div>
+    }
+</div>
+
+<br />
+
+<a href="/Teacher/Edit/@Model.SelectedTeacher.TeacherId" class="btn btn-success">Update</a>
+
+<a href="/Teacher/DeleteConfirm/@Model.SelectedTeacher.TeacherId" class="btn btn-danger">Delete</a>

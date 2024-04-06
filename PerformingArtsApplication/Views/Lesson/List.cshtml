@@ -1,0 +1,61 @@
+﻿@model IEnumerable<PerformingArtsApplication.Models.LessonDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<style>
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<h2>Lessons</h2>
+
+<br />
+<!--search bar-->
+<form action="/Lesson/List" method="GET">
+    <input type="text" name="SearchKey" />
+    <input class="searchBtn" type="submit" value="Search" />
+</form>
+<br />
+
+<a href="/Lesson/New">New Lesson</a>
+
+<br />
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Lesson ID</th>
+            <th>Lesson Name</th>
+            <th>Lesson Time</th>
+            <th>Room</th>
+            <th>Teacher ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PerformingArtsApplication.Models.LessonDto Lesson in Model)
+        {
+            <tr>
+                <td>@Lesson.LessonId</td>
+                <td><a href="/Lesson/Details/@Lesson.LessonId">@Lesson.LessonName</a></td>
+                <td>@Lesson.LessonTime</td>
+                <td>@Lesson.Room</td>
+                <td><a href="/Teacher/Details/@Lesson.TeacherId">@Lesson.TeacherId</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>

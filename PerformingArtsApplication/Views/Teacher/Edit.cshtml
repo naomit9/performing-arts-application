@@ -1,0 +1,73 @@
+﻿@model PerformingArtsApplication.Models.TeacherDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script>
+    //client side validation
+    function validateTeacherForm() {
+        var validTeacherData = true;
+
+        var TeacherId = document.getElementById("TeacherId").value;
+        var TeacherIdError = document.getElementById("TeacherIdError");
+
+        if (TeacherId === "") {
+            TeacherIdError.style.display = "block";
+            validTeacherData = false;
+        } else {
+            TeacherIdError.style.display = "none";
+        }
+
+        var FirstName = document.getElementById("FirstName").value;
+        var FirstNameError = document.getElementById("FirstNameError");
+
+        if (FirstName === "") {
+            FirstNameError.style.display = "block";
+            validFirstData = false;
+        } else {
+            FirstNameError.style.display = "none";
+        }
+
+        var LastName = document.getElementById("LastName").value;
+        var LastNameError = document.getElementById("LastNameError");
+
+        if (LastName === "") {
+            LastNameError.style.display = "block";
+            validLastData = false;
+        } else {
+            LastNameError.style.display = "none";
+        }
+
+        if (validTeacherData === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+
+<a class="backLink" href="/Teacher/Details/@Model.TeacherId">< Back</a>
+
+<h2>Update Teacher</h2>
+
+<form action="/Teacher/Update/@Model.TeacherId" method="POST" onsubmit="return validateTeacherForm()">
+
+    <div style="display:none">
+        <input type="number" name="TeacherId" value="@Model.TeacherId" />
+    </div>
+    <div class="formInput">
+        <p id="FirstNameError" style="display:none; color:red;">*Please enter a first name</p>
+        <label>First Name: </label>
+        <input type="text" name="FirstName" value="@Model.FirstName" />
+    </div>
+    <div class="formInput">
+        <p id="LastNameError" style="display:none; color:red;">*Please enter a last name</p>
+        <label>Last Time: </label>
+        <input type="text" name="LastName" value="@Model.LastName" />
+    </div>
+
+    <div>
+        <input class="submitBtn" id="addTeacherSubmit" type="submit" value="Update Teacher" />
+    </div>
+</form>

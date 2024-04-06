@@ -1,0 +1,17 @@
+﻿@model PerformingArtsApplication.Models.TeacherDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are your sure your want to delete this teacher?</h2>
+
+<h3>Teacher ID: @Model.TeacherId</h3>
+<div>First Name: @Model.FirstName</div>
+<div>Last Name: @Model.LastName</div>
+
+<a href="/Teacher/List">Cancel</a>
+
+<form action="/Teacher/Delete/@Model.TeacherId" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>

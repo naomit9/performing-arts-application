@@ -1,5 +1,4 @@
-﻿﻿@model IEnumerable<PerformingArtsApplication.Models.PerformanceDto>
-
+﻿@model IEnumerable<PerformingArtsApplication.Models.TeacherDto>
 @{
     ViewBag.Title = "List";
 }
@@ -22,33 +21,35 @@
     }
 </style>
 
-<h2>Performances</h2>
+<h2>Teachers</h2>
 
+<br />
 <!--search bar-->
-<form action="/Performance/List" method="GET">
+<form action="/Teacher/List" method="GET">
     <input type="text" name="SearchKey" />
     <input class="searchBtn" type="submit" value="Search" />
 </form>
-
 <br />
 
-<a href="/Performance/New">New Performance</a>
+<a href="/Teacher/New">New Teacher</a>
 
 <br />
 
 <table border="1">
     <thead>
         <tr>
-            <th>Performance ID</th>
-            <th>Performance Name</th>
+            <th>Teacher ID</th>
+            <th>First Name</th>
+            <th>Last Time</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (PerformingArtsApplication.Models.PerformanceDto Performance in Model)
+        @foreach (PerformingArtsApplication.Models.TeacherDto Teacher in Model)
         {
             <tr>
-                <td>@Performance.PerformanceId</td>
-                <td><a href="/Performance/Details/@Performance.PerformanceId">@Performance.PerformanceName</a></td>
+                <td><a href="/Teacher/Details/@Teacher.TeacherId">@Teacher.TeacherId</a></td>
+                <td>@Teacher.FirstName</td>
+                <td>@Teacher.LastName</td>
             </tr>
         }
     </tbody>
