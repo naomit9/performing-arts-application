@@ -1,4 +1,4 @@
-﻿@model PerformingArtsApplication.Models.TeacherDto
+﻿@model PerformingArtsApplication.Models.ViewModels.DetailsTeacher
 
 @{
     ViewBag.Title = "Details";
@@ -41,6 +41,18 @@
     </tbody>
 
 </table>
+
+<br />
+
+<div>
+    <h3>Teaches</h3>
+    @foreach (var lesson in Model.LessonsTaught)
+    {
+        <div>
+            <a class="item" href="/Lesson/Details/@lesson.LessonId">@lesson.LessonName</a>
+        </div>
+    }
+</div>
 
 <br />
 

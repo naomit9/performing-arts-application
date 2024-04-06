@@ -4,6 +4,24 @@
     ViewBag.Title = "List";
 }
 
+<style>
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
 <h2>Performances</h2>
 
 <!--search bar-->
@@ -12,11 +30,27 @@
     <input class="searchBtn" type="submit" value="Search" />
 </form>
 
-@foreach (PerformingArtsApplication.Models.PerformanceDto Performance in Model)
-{
-    <div><a href="/Performance/Details/@Performance.PerformanceId">@Performance.PerformanceName</a></div>
-}
+<br />
 
-<div>
-    <a href="/Performance/New">Add Performance +</a>
-</div>
+<a href="/Performance/New">New Performance</a>
+
+<br />
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Performance ID</th>
+            <th>Performance Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PerformingArtsApplication.Models.PerformanceDto Performance in Model)
+        {
+            <tr>
+                <td>@Performance.PerformanceId</td>
+                <td><a href="/Performance/Details/@Performance.PerformanceId">@Performance.PerformanceName</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>

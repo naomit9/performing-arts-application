@@ -27,7 +27,7 @@ namespace PerformingArtsApplication.Controllers
             //communicate with lesson data to retrieve list of animals
             //curl https://localhost:44304/api/teacherdata/listteachers
 
-            string url = "lessondata/listlessons/" + SearchKey;
+            string url = "teacherdata/listteachers/" + SearchKey;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<TeacherDto> Teachers = response.Content.ReadAsAsync<IEnumerable<TeacherDto>>().Result;
@@ -43,11 +43,17 @@ namespace PerformingArtsApplication.Controllers
             //communicate with lesson data to retrieve one lesson
             //curl https://localhost:44304/api/teacherdata/findteacher/{id}
 
-            string url = "findteacher/" + id;
+            string url = "teacherdata/findteacher/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             TeacherDto SelectedTeacher = response.Content.ReadAsAsync<TeacherDto>().Result;
             ViewModel.SelectedTeacher = SelectedTeacher;
+
+            // showcase all lessons in the system taught by the selected teacher
+            url = "lessondata/listlessonsforteacher/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<LessonDto> LessonsTaught = response.Content.ReadAsAsync<IEnumerable<LessonDto>>().Result; ;
+            ViewModel.LessonsTaught = LessonsTaught;
 
             return View(ViewModel);
         }
@@ -67,7 +73,7 @@ namespace PerformingArtsApplication.Controllers
         [HttpPost]
         public ActionResult Create(Teacher Teacher)
         {
-            string url = "addteacher";
+            string url = "teacherdata/addteacher";
 
             string jsonpayload = jss.Serialize(Teacher);
             //Debug.WriteLine(jsonpayload);
@@ -91,7 +97,7 @@ namespace PerformingArtsApplication.Controllers
         {
             //grab teacher information
 
-            string url = "findteacher/" + id;
+            string url = "teacherdata/findteacher/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("Response code is ");
@@ -110,7 +116,7 @@ namespace PerformingArtsApplication.Controllers
         public ActionResult Edit(int id, Teacher Teacher)
         {
             //send request to the api
-            string url = "updateteacher/" + id;
+            string url = "teacherdata/updateteacher/" + id;
 
             string jsonplayload = jss.Serialize(Teacher);
             //Debug.WriteLine(jsonplayload);
@@ -134,7 +140,7 @@ namespace PerformingArtsApplication.Controllers
         // GET: Teacher/Delete/5
         public ActionResult Delete(int id)
         {
-            string url = "findlesson/" + id;
+            string url = "teacherdata/findlesson/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             TeacherDto SelectedTeacher = response.Content.ReadAsAsync<TeacherDto>().Result;
@@ -146,7 +152,7 @@ namespace PerformingArtsApplication.Controllers
         [HttpPost]
         public ActionResult Delete(int id, Teacher Teacher)
         {
-            string url = "deleteteacher/" + id;
+            string url = "teacherdata/deleteteacher/" + id;
 
             //string jsonpayload = jss.Serialize(lesson);
             //Debug.WriteLine(jsonpayload);

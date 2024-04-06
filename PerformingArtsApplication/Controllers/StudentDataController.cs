@@ -59,12 +59,78 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all students in the system related to a particular lesson
+        /// </summary>
+        /// <returns>
+        ///     Returns all students in the database related to a particular lesson id including their student id, first name, last name, and birthday
+        /// </returns>
+        /// <param name="id"> The lesson's primary key, lesson id (as an integer) </param>
+        /// <example>
+        ///     GET: api/StudentData/ListStudentsForLesson/2
+        /// </example>
+        [HttpGet]
+        public IEnumerable<StudentDto> ListStudentsForLesson(int id)
+        {
+            //select all students that are in the lesson that match the id
+            List<Student> Students = db.Students.Where(
+                s => s.Lessons.Any(
+                    l => l.LessonId == id)
+                ).ToList();
+
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Students.ForEach(s => StudentDtos.Add(new StudentDto()
+            {
+                StudentId = s.StudentId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Birthday = s.Birthday
+            }
+            ));
+
+            return StudentDtos;
+        }
+
+        /// <summary>
+        ///     Returns a list of all students in the system not related to a particular lesson
+        /// </summary>
+        /// <returns>
+        ///     Returns all students in the database not related to a particular lesson id including their student id, first name, last name, and birthday
+        /// </returns>
+        /// <param name="id"> The lesson's primary key, lesson id (as an integer) </param>
+        /// <example>
+        ///     GET: api/StudentData/ListStudentsNotInLesson/2
+        /// </example>
+        [HttpGet]
+        public IEnumerable<StudentDto> ListStudentsNotInLesson(int id)
+        {
+            //select all students that are not in the performance that match the id
+            List<Student> Students = db.Students.Where(
+                s => !s.Lessons.Any(
+                    l => l.LessonId == id)
+                ).ToList();
+
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Students.ForEach(s => StudentDtos.Add(new StudentDto()
+            {
+                StudentId = s.StudentId,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Birthday = s.Birthday
+            }
+            ));
+
+            return StudentDtos;
+        }
+
+        /// <summary>
         ///     Returns a list of all students in the system related to a particular performance
         /// </summary>
         /// <returns>
         ///     Returns all students in the database related to a particular performance id including their student id, first name, last name, and birthday
         /// </returns>
-        /// <param name="id"> The performances's primary key, performance id (as an integer) </param>
+        /// <param name="id"> The performance's primary key, performance id (as an integer) </param>
         /// <example>
         ///     GET: api/StudentData/ListStudentsForPerformance/2
         /// </example>
@@ -97,7 +163,7 @@ namespace PerformingArtsApplication.Controllers
         /// <returns>
         ///     Returns all students in the database not related to a particular performance id including their student id, first name, last name, and birthday
         /// </returns>
-        /// <param name="id"> The performances's primary key, performance id (as an integer) </param>
+        /// <param name="id"> The performance's primary key, performance id (as an integer) </param>
         /// <example>
         ///     GET: api/StudentData/ListStudentsNotInPerformance/2
         /// </example>
