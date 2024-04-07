@@ -6,6 +6,6 @@ Collaborators: Hannah Quintos, Naomi Truong, Melissa De Leon
 
 Hannah - Created controllers, views, viewmodels and CRUD fuctionality for Performances & Students
 <br>
-Naomi - Created controllers, views, viewmodels, and CRUD fuctionality for Events (WIP)
+Naomi - Created controllers, views, viewmodels, and CRUD fuctionality for Showcases (WIP)
 <br>
 Melissa - Created controllers, views, viewmodels and CRUD fuctionality for Lessons & Teachers
