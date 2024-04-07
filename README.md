@@ -1,6 +1,6 @@
 # Performing Arts Application
 
-This application is a content management for a performing arts school. The application allows users to manage students, teachers, lessons, performances, and showcases at the school.
+This application is a content management system for a performing arts school. The application allows users to manage students, teachers, lessons, performances, and showcases at the school.
 
 Collaborators: Hannah Quintos, Naomi Truong, Melissa De Leon
 
