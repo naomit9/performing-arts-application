@@ -1,0 +1,35 @@
+﻿odel IEnumerable<PerformingArtsApplication.Models.ShowcaseDto>
+
+    @{
+        ViewBag.Title = "Create";
+    }
+
+    <h2>Create Showcase</h2>
+
+    <div style="display: flex; justify-content: space-between;">
+        <form action="/Showcase/Create" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Showcase Name:  </label>
+                <input class="form-control" type="text" name="ShowcaseName" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date:  </label>
+                <!--<input class="form-control" type="datetime" name="Date" /> -->
+                <div class="calendar-container">
+                    <input class="form-control" type="text" id="datepicker" name="Date" />
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Location: </label>
+                <input class="form-control" type="text" name="Location" />
+            </div>
+            <div>
+                <input type="submit" value="Add Showcase" class="btn btn-success" style="margin-top:1rem;" />
+            </div>
+        </form>
+
+        <form method="POST" action="/Showcase/List">
+            <button class="btn btn-danger">Cancel</button>
+        </form>
+    </div>

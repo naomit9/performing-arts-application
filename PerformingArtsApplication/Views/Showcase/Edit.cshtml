@@ -1,0 +1,34 @@
+﻿@model PerformingArtsApplication.Models.ShowcaseDto
+
+@{
+    ViewBag.Title = "Update";
+}
+
+<h2>Update Showcase Information</h2>
+
+<div style="display: flex; justify-content: space-between;">
+    <form action="/Showcase/Update/@Model.ShowcaseId" method="POST">
+        <input type="text" style="display:none;" name="ShowcaseId" value="@Model.ShowcaseId" />
+        <div class="mb-3">
+            <label class="form-label">Showcase Name:  </label>
+            <input class="form-control" type="text" name="ShowcaseName" value="@Model.ShowcaseName" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date: </label>
+            <input class="form-control" type="datetime" name="ShowcaseDate" value="@Model.ShowcaseDate" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Location: </label>
+            <input class="form-control" type="text" name="Location" value="@Model.Location" />
+        </div>
+        <div style="margin: 1rem 0;">
+            <input class="btn btn-success" type="submit" value="Update Showcase" />
+        </div>
+    </form>
+</div>
+
+<nav>
+    <form method="POST" action="/Showcase/Details/@Model.ShowcaseId">
+        <button class="btn btn-danger">Cancel</button>
+    </form>
+</nav>

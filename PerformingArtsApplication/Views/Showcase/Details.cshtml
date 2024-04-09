@@ -1,0 +1,28 @@
+﻿@model PerformingArtsApplication.Models.ShowcaseDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<a href="/Showcase/List" class="btn btn-primary" style="margin-bottom:2rem;">Back To List</a>
+
+<h2>Details</h2>
+
+<div class="card" style="width: fit-content;">
+    <div class="card-body">
+        <h3 class="card-title" style="margin:1rem;">@Model.ShowcaseName</h3>
+        <div class="card-text"><strong>Date:</strong> @Model.ShowcaseDate</div>
+        <div class="card-text"><strong>Location:</strong> @Model.Location</div>
+
+        <nav style="margin:1rem;">
+            <form method="POST" action="/Showcase/Edit/@Model.ShowcaseId" style="display: inline;" class="card-link">
+                <button class="btn btn-info">Edit</button>
+            </form>
+
+            <form method="POST" action="/Showcase/DeleteConfirm/@Model.ShowcaseId" style="display: inline;" class="card-link">
+                <button class="btn btn-danger">Delete</button>
+            </form>
+        </nav>
+
+    </div>
+</div>
