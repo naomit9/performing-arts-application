@@ -1,7 +1,11 @@
 # Performing Arts Application
 
-Hannah: Created controllers, view models and CRUD fuctionality for Performances & Students
+This application is a content management system for a performing arts school. The application allows users to manage students, teachers, lessons, performances, and showcases at the school.
+
+Collaborators: Hannah Quintos, Naomi Truong, Melissa De Leon
+
+Hannah - Created controllers, views, viewmodels and CRUD fuctionality for Performances & Students
 <br>
-Naomi: Created controllers, view models and CRUD fuctionality for Events (WIP)
+Naomi - Created controllers, views, viewmodels, and CRUD fuctionality for Showcases (WIP)
 <br>
-Melissa: Created controllers, view models and CRUD fuctionality for Lessons & Teachers
+Melissa - Created controllers, views, viewmodels and CRUD fuctionality for Lessons & Teachers
