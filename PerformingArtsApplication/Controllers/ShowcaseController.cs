@@ -54,7 +54,7 @@ namespace PerformingArtsApplication.Controllers
         /// <example>GET: Showcase/Details/5</example>
         public ActionResult Details(int id)
         {
-            //DetailsShowcase ViewModel = new DetailsShowcase();
+            DetailsShowcase ViewModel = new DetailsShowcase();
 
             string url = "ShowcaseData/FindShowcase/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -64,25 +64,25 @@ namespace PerformingArtsApplication.Controllers
 
             ShowcaseDto SelectedShowcase = response.Content.ReadAsAsync<ShowcaseDto>().Result;
 
-            Debug.WriteLine("Showcase received:");
-            Debug.WriteLine(SelectedShowcase.ShowcaseName);
+            //Debug.WriteLine("Showcase received:");
+            //Debug.WriteLine(SelectedShowcase.ShowcaseName);
 
-            //ViewModel.SelectedShowcase = SelectedShowcase;
+            ViewModel.SelectedShowcase = SelectedShowcase;
 
             // Show all dance performances that participated in a showcase
-            /* url = "PerformanceData/ListPerformancesForShowcase/" + id;
+            url = "PerformanceData/ListPerformancesForShowcase/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<PerformanceDto> ShowcasePerformances = response.Content.ReadAsAsync<IEnumerable<PerformanceDto>>().Result;
 
-            url = "PerformanceData/ListPerformancessNotInShowcase/" + id;
+            url = "PerformanceData/ListPerformancesNotInShowcase/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<PerformanceDto> AvailablePerformances = response.Content.ReadAsAsync<IEnumerable<PerformanceDto>>().Result;
 
             ViewModel.AvailablePerformances = AvailablePerformances;
 
-            ViewModel.ShowcasePerformances = ShowcasePerformances; */
+            ViewModel.ShowcasePerformances = ShowcasePerformances;
 
-            return View(SelectedShowcase);
+            return View(ViewModel);
         }
 
 
@@ -91,7 +91,7 @@ namespace PerformingArtsApplication.Controllers
         public ActionResult Associate(int id, int PerformanceId)
         {
             // Call our API to associate showcase with performance
-            string url = "ShowcaseData/AssociateShowcaseWithPerformance/" + id + "/" + PerformanceId;
+            string url = "ShowcaseData/AddPerformanceToShowcase/" + id + "/" + PerformanceId;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
@@ -105,8 +105,8 @@ namespace PerformingArtsApplication.Controllers
         [HttpGet]
         public ActionResult Unassociate(int id, int PerformanceId)
         {
-            // Call our API to associate showcase with performance
-            string url = "ShowcaseData/UnassociateShowcaseWithPerformance/" + id + "/" + PerformanceId;
+            // Call our API to unassociate showcase with performance
+            string url = "ShowcaseData/RemovePerformanceFromShowcase/" + id + "/" + PerformanceId;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;

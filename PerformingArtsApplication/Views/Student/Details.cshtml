@@ -43,7 +43,7 @@
 <br />
 
 <div>
-    <h3>Performances</h3>
+    <h4>Performances</h4>
     @foreach (var performance in Model.PerformancesForStudent)
     {
         <a class="item" href="/Performance/Details/@performance.PerformanceId">@performance.PerformanceName</a><br />
@@ -53,7 +53,7 @@
 <br />
 
 <div>
-    <h3>Lessons</h3>
+    <h4>Lessons</h4>
     @foreach (var lesson in Model.LessonsForStudent)
     {
         <a class="item" href="/Lesson/Details/@lesson.LessonId">@lesson.LessonName</a><br />

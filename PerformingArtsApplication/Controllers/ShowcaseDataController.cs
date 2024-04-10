@@ -69,6 +69,68 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Associate a particular performance with a particular showcase
+        /// </summary>
+        /// <param name="showcaseid"> The showcase's primary key, showcase id (as an integer) </param>
+        /// <param name="performanceid"> The performance's primary key, performance id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/showcasedata/AddPerformanceToShowcase/{showcaseid}/{performanceid}")]
+        public IHttpActionResult AddPerformanceToShowcase(int showcaseid, int performanceid)
+        {
+            Showcase SelectedShowcase = db.Showcases.Include
+                (s => s.Performances).Where
+                (s => s.ShowcaseId == showcaseid).FirstOrDefault();
+
+            Performance SelectedPerformance = db.Performances.Find(performanceid);
+
+            if (SelectedShowcase == null || SelectedPerformance == null)
+            {
+                return NotFound();
+            }
+
+            SelectedShowcase.Performances.Add(SelectedPerformance);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
+        ///     Remove an association between a particular performance and a particular showcase
+        /// </summary>
+        /// <param name="showcaseid"> The showcase's primary key, showcase id (as an integer) </param>
+        /// <param name="performanceid"> The performance's primary key, performance id (as an integer) </param>
+        /// <returns>
+        ///     HEADER: 200 (OK)
+        ///         or
+        ///     HEADER: 404 (NOT FOUND)
+        /// </returns>
+        [HttpPost]
+        [Route("api/showcasedata/RemovePerformanceFromShowcase/{showcaseid}/{performanceid}")]
+        public IHttpActionResult RemovePerformanceFromShowcase(int showcaseid, int performanceid)
+        {
+            Showcase SelectedShowcase = db.Showcases.Include
+                (s => s.Performances).Where
+                (s => s.ShowcaseId == showcaseid).FirstOrDefault();
+
+            Performance SelectedPerformance = db.Performances.Find(performanceid);
+
+            if (SelectedShowcase == null || SelectedPerformance == null)
+            {
+                return NotFound();
+            }
+
+            SelectedShowcase.Performances.Remove(SelectedPerformance);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Returns one particular showcase
         /// </summary>
         /// <param name="id">ID of Showcase</param>

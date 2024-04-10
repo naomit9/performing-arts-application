@@ -75,6 +75,13 @@ namespace PerformingArtsApplication.Controllers
 
             ViewModel.AvailableStudents = AvailableStudents;
 
+            // show associated showcases with this performance
+            url = "showcasedata/listshowcasesforperformance/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<ShowcaseDto> PerformanceShowcases = response.Content.ReadAsAsync<IEnumerable<ShowcaseDto>>().Result;
+
+            ViewModel.PerformanceShowcases = PerformanceShowcases;
+
             //Views/Performance/Details.cshtml
             return View(ViewModel);
         }

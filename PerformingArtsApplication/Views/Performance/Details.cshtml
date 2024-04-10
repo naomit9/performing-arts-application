@@ -43,7 +43,7 @@
 <br />
 
 <div>
-    <h3>Students</h3>
+    <h4>Students</h4>
     @foreach (var student in Model.StudentsInPerformance)
     {
         <a class="item" href="/Student/Details/@student.StudentId">@student.FirstName @student.LastName</a>
@@ -54,7 +54,7 @@
 <br />
 
 <div>
-    <h3>Add new student to @Model.SelectedPerformance.PerformanceName</h3>
+    <h4>Add new student to @Model.SelectedPerformance.PerformanceName</h4>
     <form action="/Performance/Associate/@Model.SelectedPerformance.PerformanceId" method="POST">
         <select name="StudentId">
             @foreach (var student in @Model.AvailableStudents)
@@ -64,6 +64,16 @@
         </select>
         <input type="submit" value="Associate Student" id="associateBtn" />
     </form>
+</div>
+
+<br />
+
+<div>
+    <h4>Showcases for this performance</h4>
+    @foreach (var showcase in Model.PerformanceShowcases)
+    {
+        <a class="item" href="/Showcase/Details/@showcase.ShowcaseId">@showcase.ShowcaseName</a>
+    }
 </div>
 
 <br />

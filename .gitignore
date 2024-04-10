@@ -362,3 +362,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/PerformingArtsApplication/App_Data/aspnet-PerformingArtsApplication-20240317064049_log.ldf

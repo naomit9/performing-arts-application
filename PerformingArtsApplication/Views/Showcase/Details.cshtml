@@ -1,4 +1,4 @@
-﻿@model PerformingArtsApplication.Models.ShowcaseDto
+﻿@model PerformingArtsApplication.Models.ViewModels.DetailsShowcase
 
 @{
     ViewBag.Title = "Details";
@@ -10,16 +10,44 @@
 
 <div class="card" style="width: fit-content;">
     <div class="card-body">
-        <h3 class="card-title" style="margin:1rem;">@Model.ShowcaseName</h3>
-        <div class="card-text"><strong>Date:</strong> @Model.ShowcaseDate</div>
-        <div class="card-text"><strong>Location:</strong> @Model.Location</div>
+        <h3 class="card-title" style="margin:1rem;">@Model.SelectedShowcase.ShowcaseName</h3>
+        <div class="card-text"><strong>Date:</strong> @Model.SelectedShowcase.ShowcaseDate</div>
+        <div class="card-text"><strong>Location:</strong> @Model.SelectedShowcase.Location</div>
+
+        <br />
+
+        <div>
+            <h4>Performances</h4>
+            @foreach (var performance in Model.ShowcasePerformances)
+            {
+                <a class="item" href="/Performance/Details/@performance.PerformanceId">@performance.PerformanceName</a>
+                <a class="xIcon" href="/Showcase/Unassociate/@Model.SelectedShowcase.ShowcaseId?PerformanceId=@performance.PerformanceId">[x]</a><br />
+            }
+        </div>
+
+        <br />
+
+        <div>
+            <h4>Add new performance to @Model.SelectedShowcase.ShowcaseName</h4>
+            <form action="/Showcase/Associate/@Model.SelectedShowcase.ShowcaseId" method="POST">
+                <select name="PerformanceId">
+                    @foreach (var performance in @Model.AvailablePerformances)
+                    {
+                        <option value="@performance.PerformanceId">@performance.PerformanceName</option>
+                    }
+                </select>
+                <input type="submit" value="Add" id="associateBtn" />
+            </form>
+        </div>
+
+        <br />
 
         <nav style="margin:1rem;">
-            <form method="POST" action="/Showcase/Edit/@Model.ShowcaseId" style="display: inline;" class="card-link">
+            <form method="POST" action="/Showcase/Edit/@Model.SelectedShowcase.ShowcaseId" style="display: inline;" class="card-link">
                 <button class="btn btn-info">Edit</button>
             </form>
 
-            <form method="POST" action="/Showcase/DeleteConfirm/@Model.ShowcaseId" style="display: inline;" class="card-link">
+            <form method="POST" action="/Showcase/DeleteConfirm/@Model.SelectedShowcase.ShowcaseId" style="display: inline;" class="card-link">
                 <button class="btn btn-danger">Delete</button>
             </form>
         </nav>
