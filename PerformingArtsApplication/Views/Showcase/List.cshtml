@@ -1,0 +1,27 @@
+﻿@model IEnumerable<PerformingArtsApplication.Models.ShowcaseDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Here is our list of showcase events</h2>
+<form method="GET" action="/Showcase/New">
+    <button class="btn btn-success">Add New Showcase</button>
+</form>
+
+<div class="card-container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    @foreach (var show in Model)
+    {
+        <div class="card" style="width: 18rem; margin-top: 2rem;">
+            <div class="card-body">
+                <div class="card-text"><strong>@show.ShowcaseName</strong></div>
+                <div class="card-text">@show.ShowcaseDate</div>
+                <div class="card-text">@show.Location</div>
+                <nav style="margin-top: 1rem;">
+                    <form method="POST" action="/Showcase/Details/@show.ShowcaseId">
+                        <button class="btn btn-info">View More</button>
+                    </form>
+                </nav>
+            </div>
+        </div>
+    }
+</div>

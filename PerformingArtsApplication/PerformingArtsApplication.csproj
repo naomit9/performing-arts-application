@@ -85,9 +85,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Extensions">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Web.Extensions.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -202,6 +200,8 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerformanceController.cs" />
     <Compile Include="Controllers\PerformanceDataController.cs" />
+    <Compile Include="Controllers\ShowcaseController.cs" />
+    <Compile Include="Controllers\ShowcaseDataController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\StudentDataController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -253,6 +253,10 @@
     <Compile Include="Migrations\202403180035247_lessonrooms.designer.cs">
       <DependentUpon>202403180035247_lessonrooms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202404091403578_showcase.cs" />
+    <Compile Include="Migrations\202404091403578_showcase.designer.cs">
+      <DependentUpon>202404091403578_showcase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -264,6 +268,7 @@
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\ViewModels\DetailsLesson.cs" />
     <Compile Include="Models\ViewModels\DetailsPerformance.cs" />
+    <Compile Include="Models\ViewModels\DetailsShowcase.cs" />
     <Compile Include="Models\ViewModels\DetailsStudent.cs" />
     <Compile Include="Models\ViewModels\DetailsTeacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -364,6 +369,12 @@
     <Content Include="Views\Lesson\Details.cshtml" />
     <Content Include="Views\Lesson\DeleteConfirm.cshtml" />
     <Content Include="Views\Lesson\Error.cshtml" />
+    <Content Include="Views\Showcase\List.cshtml" />
+    <Content Include="Views\Showcase\New.cshtml" />
+    <Content Include="Views\Showcase\Details.cshtml" />
+    <Content Include="Views\Showcase\DeleteConfirm.cshtml" />
+    <Content Include="Views\Showcase\Error.cshtml" />
+    <Content Include="Views\Showcase\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -430,13 +441,13 @@
     <EmbeddedResource Include="Migrations\202403180035247_lessonrooms.resx">
       <DependentUpon>202403180035247_lessonrooms.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202404091403578_showcase.resx">
+      <DependentUpon>202404091403578_showcase.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -458,9 +469,6 @@
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-          <servers defaultServer="SelfHostServer">
-            <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:55446/" workingDir="" />
-          </servers>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
