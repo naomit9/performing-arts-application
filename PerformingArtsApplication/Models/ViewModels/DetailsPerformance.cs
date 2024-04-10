@@ -10,5 +10,6 @@ namespace PerformingArtsApplication.Models.ViewModels
         public PerformanceDto SelectedPerformance { get; set; }
         public IEnumerable<StudentDto> StudentsInPerformance { get; set; }
         public IEnumerable<StudentDto> AvailableStudents { get; set; }
+        public IEnumerable<ShowcaseDto> PerformanceShowcases { get; set; }
     }
 }

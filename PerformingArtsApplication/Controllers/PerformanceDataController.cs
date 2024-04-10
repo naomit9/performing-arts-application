@@ -56,6 +56,68 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all performances in the system related to a particular showcase
+        /// </summary>
+        /// <returns>
+        ///     Returns all performances in the database associated with a specific showcase id including their performance id and performance name
+        /// </returns>
+        /// <param name="id"> The showcase's primary key, showcase id (as an integer) </param>
+        /// <example>
+        ///     GET: api/PerformanceData/ListPerformancesForShowcase/1
+        /// </example>
+        [HttpGet]
+        public IEnumerable<PerformanceDto> ListPerformancesForShowcase(int id)
+        {
+            //select all performances that are in the showcase that matches with the id
+            List<Performance> Performances = db.Performances.Where(
+                p => p.Showcases.Any(
+                    s => s.ShowcaseId == id
+                )).ToList();
+
+            List<PerformanceDto> PerformanceDtos = new List<PerformanceDto>();
+
+            Performances.ForEach(p => PerformanceDtos.Add(new PerformanceDto()
+            {
+                PerformanceId = p.PerformanceId,
+                PerformanceName = p.PerformanceName
+            }
+            ));
+
+            return PerformanceDtos;
+        }
+
+        /// <summary>
+        ///     Returns a list of all performances in the system not related to a particular showcase
+        /// </summary>
+        /// <returns>
+        ///     Returns all performances in the database not related to a particular showcase id including their performance id and performance name
+        /// </returns>
+        /// <param name="id"> The showcase's primary key, showcase id (as an integer) </param>
+        /// <example>
+        ///     GET: api/PerformanceData/ListPerformancesNotInShowcase/2
+        /// </example>
+        [HttpGet]
+        public IEnumerable<PerformanceDto> ListPerformancesNotInShowcase(int id)
+        {
+            //select all performances that are in the showcase that matches with the id            List<Student> Students = db.Students.Where(
+            List<Performance> Performances = db.Performances.Where(
+                p => !p.Showcases.Any(
+                    s => s.ShowcaseId == id
+                )).ToList();
+
+            List<PerformanceDto> PerformanceDtos = new List<PerformanceDto>();
+
+            Performances.ForEach(p => PerformanceDtos.Add(new PerformanceDto()
+            {
+                PerformanceId = p.PerformanceId,
+                PerformanceName = p.PerformanceName
+            }
+            ));
+
+            return PerformanceDtos;
+        }
+
+        /// <summary>
         ///     Returns a list of all performances in the system related to a particular student
         /// </summary>
         /// <returns>
@@ -118,7 +180,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
-        ///     Remove an association between a particular student with a particular performance
+        ///     Remove an association between a particular student and a particular performance
         /// </summary>
         /// <param name="performanceid"> The performance's primary key, performance id (as an integer) </param>
         /// <param name="studentid"> The student's primary key, student id (as an integer) </param>
