@@ -2,6 +2,7 @@
 using PerformingArtsApplication.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -17,8 +18,35 @@ namespace PerformingArtsApplication.Controllers
 
         static LessonController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44304/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Lesson/List
@@ -67,8 +95,11 @@ namespace PerformingArtsApplication.Controllers
 
         //POST: Lesson/Associate/{lessonid}
         [HttpPost]
+        [Authorize]
         public ActionResult Associate(int id, int StudentId)
         {
+            GetApplicationCookie();
+
             // call api to add student to lesson
             string url = "lessondata/addstudenttolesson/" + id + "/" + StudentId;
 
@@ -82,8 +113,11 @@ namespace PerformingArtsApplication.Controllers
 
         //GET: Lesson/UnAssociate/{id}?StudentId={studentid}
         [HttpGet]
+        [Authorize]
         public ActionResult UnAssociate(int id, int StudentId)
         {
+            GetApplicationCookie();
+
             // call api to remove student from lesson
             string url = "lessondata/removestudentfromlesson/" + id + "/" + StudentId;
 
@@ -101,6 +135,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Lesson/New
+        [Authorize]
         public ActionResult New()
         {
             // access information all teachers in the system to choose from when creating a new lesson
@@ -115,8 +150,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Lesson/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Lesson Lesson)
         {
+            GetApplicationCookie();
+
             //Debug.WriteLine("the jsonpayload is: ");
             //Debug.WriteLine(Lesson.LessonName);
             //add new lesson to system 
@@ -142,6 +180,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Lesson/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             //grab lesson information
@@ -162,8 +201,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Lesson/Update/5
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Lesson Lesson)
         {
+            GetApplicationCookie();
+
             //send request to the api
             string url = "lessondata/updatelesson/" + id;
 
@@ -186,9 +228,12 @@ namespace PerformingArtsApplication.Controllers
             }
         }
 
-        // GET: Lesson/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Lesson/DeleteConfirm/5
+        [Authorize]
+        public ActionResult DeleteConfirm(int id)
         {
+            GetApplicationCookie();
+
             string url = "lessondata/findlesson/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
@@ -199,6 +244,7 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Lesson/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, Lesson Lesson)
         {
             string url = "lessondata/deletelesson/" + id;

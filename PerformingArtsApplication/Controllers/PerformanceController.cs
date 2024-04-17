@@ -21,9 +21,36 @@ namespace PerformingArtsApplication.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         static PerformanceController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
             //set base part of path for accessing information in performance controller
             client.BaseAddress = new Uri("https://localhost:44304/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Performance/List
@@ -88,8 +115,11 @@ namespace PerformingArtsApplication.Controllers
 
         //POST: Performance/Associate/{performanceid}
         [HttpPost]
+        [Authorize]
         public ActionResult Associate(int id, int StudentId)
         {
+            GetApplicationCookie();
+
             /*Debug.WriteLine("Attempting to associate performance: " + id + " with student: " + StudentId);*/
 
             // call api to add student to performance
@@ -105,8 +135,11 @@ namespace PerformingArtsApplication.Controllers
 
         //GET: Performance/UnAssociate/{id}?StudentId={studentid}
         [HttpGet]
+        [Authorize]
         public ActionResult UnAssociate(int id, int StudentId)
         {
+            GetApplicationCookie();
+
             /*Debug.WriteLine("Attempting to unassociate performance: " + id + " with student: " + StudentId);*/
 
             // call api to remove student from performance
@@ -126,6 +159,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Performance/New
+        [Authorize]
         public ActionResult New()
         {
             return View();
@@ -133,8 +167,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Performance/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Performance performance)
         {
+            GetApplicationCookie();
+
             string url = "performancedata/addperformance";
 
             string jsonpayload = jss.Serialize(performance);
@@ -156,6 +193,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Performance/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             // existing performance information
@@ -168,8 +206,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Performance/Update/5
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Performance performance)
         {
+            GetApplicationCookie();
+
             try
             {
                 //send the request to the API
@@ -196,6 +237,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Performance/DeleteConfirm/5
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             // get the performance information
@@ -210,8 +252,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Performance/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie();
+
             //send the request to the API
             string url = "performancedata/deleteperformance/" + id;
 

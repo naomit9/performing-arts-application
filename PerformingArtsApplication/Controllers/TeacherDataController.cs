@@ -64,6 +64,7 @@ namespace PerformingArtsApplication.Controllers
         // POST: api/TeacherData/UpdateTeacher/5
         [HttpPost]
         [ResponseType(typeof(void))]
+        [Authorize]
         public IHttpActionResult UpdateTeacher(int id, Teacher Teacher)
         {
             //Debug.WriteLine("I've reached the update teacher method");
@@ -106,6 +107,7 @@ namespace PerformingArtsApplication.Controllers
         // POST: api/TeacherData/AddTeacher
         [HttpPost]
         [ResponseType(typeof(Teacher))]
+        [Authorize]
         public IHttpActionResult AddTeacher(Teacher Teacher)
         {
             if (!ModelState.IsValid)
@@ -127,6 +129,7 @@ namespace PerformingArtsApplication.Controllers
         // DELETE: api/TeacherData/DeleteTeacher/5
         [HttpPost]
         [ResponseType(typeof(Teacher))]
+        [Authorize]
         public IHttpActionResult DeleteTeacher(int id)
         {
             Teacher Teacher = db.Teachers.Find(id);

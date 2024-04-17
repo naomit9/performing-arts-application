@@ -118,6 +118,7 @@ namespace PerformingArtsApplication.Controllers
         ///     HEADER: 404 (NOT FOUND)
         /// </returns>
         [HttpPost]
+        [Authorize]
         [Route("api/lessondata/AddStudentToLesson/{lessonid}/{studentid}")]
         public IHttpActionResult AddStudentToLesson(int lessonid, int studentid)
         {
@@ -149,6 +150,7 @@ namespace PerformingArtsApplication.Controllers
         ///     HEADER: 404 (NOT FOUND)
         /// </returns>
         [HttpPost]
+        [Authorize]
         [Route("api/lessondata/RemoveStudentFromLesson/{lessonid}/{studentid}")]
         public IHttpActionResult RemoveStudentFromLesson(int lessonid, int studentid)
         {
@@ -195,6 +197,7 @@ namespace PerformingArtsApplication.Controllers
         // POST: api/LessonData/UpdateLesson/5
         [HttpPost]
         [ResponseType(typeof(void))]
+        [Authorize]
         public IHttpActionResult UpdateLesson(int id, Lesson Lesson)
         {
             //Debug.WriteLine("I've reached the update lesson method");
@@ -237,6 +240,7 @@ namespace PerformingArtsApplication.Controllers
         // POST: api/LessonData/AddLesson
         [HttpPost]
         [ResponseType(typeof(Lesson))]
+        [Authorize]
         public IHttpActionResult AddLesson(Lesson Lesson)
         {
             if (!ModelState.IsValid)
@@ -253,6 +257,7 @@ namespace PerformingArtsApplication.Controllers
         // DELETE: api/LessonData/DeleteLesson/5
         [HttpPost]
         [ResponseType(typeof(Lesson))]
+        [Authorize]
         public IHttpActionResult DeleteLesson(int id)
         {
             Lesson Lesson = db.Lessons.Find(id);

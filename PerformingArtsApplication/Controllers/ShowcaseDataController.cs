@@ -80,6 +80,7 @@ namespace PerformingArtsApplication.Controllers
         /// </returns>
         [HttpPost]
         [Route("api/showcasedata/AddPerformanceToShowcase/{showcaseid}/{performanceid}")]
+        [Authorize]
         public IHttpActionResult AddPerformanceToShowcase(int showcaseid, int performanceid)
         {
             Showcase SelectedShowcase = db.Showcases.Include
@@ -111,6 +112,7 @@ namespace PerformingArtsApplication.Controllers
         /// </returns>
         [HttpPost]
         [Route("api/showcasedata/RemovePerformanceFromShowcase/{showcaseid}/{performanceid}")]
+        [Authorize]
         public IHttpActionResult RemovePerformanceFromShowcase(int showcaseid, int performanceid)
         {
             Showcase SelectedShowcase = db.Showcases.Include
@@ -166,6 +168,7 @@ namespace PerformingArtsApplication.Controllers
         /// <example>POST: api/ShowcaseData/UpdateShowcase/5</example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateShowcase(int id, Showcase showcase)
         {
             Debug.WriteLine("The update showcase method is reached");
@@ -219,6 +222,7 @@ namespace PerformingArtsApplication.Controllers
         /// <example>POST: api/ShowcaseData/AddShowcase/5</example>
         [ResponseType(typeof(Showcase))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddShowcase(Showcase showcase)
         {
             if (!ModelState.IsValid)
@@ -241,6 +245,7 @@ namespace PerformingArtsApplication.Controllers
         /// <example>DELETE: api/ShowcaseData/DeleteShowcase/1</example>
         [ResponseType(typeof(Showcase))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteShowcase(int id)
         {
             Showcase showcase = db.Showcases.Find(id);

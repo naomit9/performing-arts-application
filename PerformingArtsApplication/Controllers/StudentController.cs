@@ -20,9 +20,36 @@ namespace PerformingArtsApplication.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         static StudentController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
             //set base part of path for accessing information in student controller
             client.BaseAddress = new Uri("https://localhost:44304/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Student/List
@@ -85,6 +112,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Student/New
+        [Authorize]
         public ActionResult New()
         {
             return View();
@@ -92,8 +120,10 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Student/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Student student)
         {
+            GetApplicationCookie();
             string url = "studentdata/addstudent";
 
             string jsonpayload = jss.Serialize(student);
@@ -115,6 +145,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Student/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             // existing student information
@@ -127,8 +158,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Student/Update/5
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Student student)
         {
+            GetApplicationCookie();
+
             try
             {
                 //send the request to the API
@@ -155,6 +189,7 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Student/DeleteConfirm/5
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             // get the student information
@@ -169,8 +204,11 @@ namespace PerformingArtsApplication.Controllers
 
         // POST: Student/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie();
+
             //send the request to the API
             string url = "studentdata/deletestudent/" + id;
 
