@@ -19,8 +19,35 @@ namespace PerformingArtsApplication.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         static ShowcaseController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44304/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         /// <summary>
@@ -88,8 +115,11 @@ namespace PerformingArtsApplication.Controllers
 
         //POST Showcase/Associate/{ShowcaseId}
         [HttpPost]
+        [Authorize]
         public ActionResult Associate(int id, int PerformanceId)
         {
+            GetApplicationCookie();
+
             // Call our API to associate showcase with performance
             string url = "ShowcaseData/AddPerformanceToShowcase/" + id + "/" + PerformanceId;
             HttpContent content = new StringContent("");
@@ -103,8 +133,11 @@ namespace PerformingArtsApplication.Controllers
 
         //GET Showcase/Unassociate/{id}?PerformanceId={PerformanceId}
         [HttpGet]
+        [Authorize]
         public ActionResult Unassociate(int id, int PerformanceId)
         {
+            GetApplicationCookie();
+
             // Call our API to unassociate showcase with performance
             string url = "ShowcaseData/RemovePerformanceFromShowcase/" + id + "/" + PerformanceId;
             HttpContent content = new StringContent("");
@@ -125,6 +158,7 @@ namespace PerformingArtsApplication.Controllers
         /// </summary>
         /// <returns>Returns a view that allows me to create a new showcase</returns>
         /// <example>GET: Showcase/New</example>
+        [Authorize]
         public ActionResult New()
         {
             return View();
@@ -138,8 +172,11 @@ namespace PerformingArtsApplication.Controllers
         /// <returns>Info about the new showcase event</returns>
         /// <example>POST: Showcase/Create</example>
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Showcase showcase)
         {
+            GetApplicationCookie();
+
             string url = "ShowcaseData/AddShowcase";
 
             string jsonpayload = jss.Serialize(showcase);
@@ -168,6 +205,7 @@ namespace PerformingArtsApplication.Controllers
         /// <param name="id">ID of showcase</param>
         /// <returns>A dynamic 'Edit Showcase' webpage which provides the current information of the showcase and asks the user for new info as a form</returns>
         /// <example>GET: Showcase/Edit/5</example>
+        [Authorize]
         public ActionResult Edit(int id)
         {
             string url = "ShowcaseData/FindShowcase/" + id;
@@ -188,8 +226,11 @@ namespace PerformingArtsApplication.Controllers
         /// <returns>If the update is successful, you will be directed back to the List page, otherwise, the Error page</returns>
         /// <example>POST: Showcase/Update/5</example>
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Showcase showcase)
         {
+            GetApplicationCookie();
+
             string url = "ShowcaseData/UpdateShowcase/" + id;
             string jsonpayload = jss.Serialize(showcase);
 
@@ -217,6 +258,7 @@ namespace PerformingArtsApplication.Controllers
         /// <param name="id">ID of showcase</param>
         /// <returns>The detail page of the selected  showcase</returns>
         /// <example>GET: Showcase/DeleteConfirm/5</example>
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "ShowcaseData/FindShowcase/" + id;
@@ -231,8 +273,11 @@ namespace PerformingArtsApplication.Controllers
         /// <returns>If the deletion is successful, you will be re-directed to List page, otherwise, Error page</returns>
         /// <example>POST: Showcase/Delete/5</example>
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie();
+
             string url = "ShowcaseData/DeleteShowcase/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

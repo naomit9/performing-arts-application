@@ -160,6 +160,7 @@ namespace PerformingArtsApplication.Controllers
         /// </returns>
         [HttpPost]
         [Route("api/performancedata/AddStudentToPerformance/{performanceid}/{studentid}")]
+        [Authorize]
         public IHttpActionResult AddStudentToPerformance(int performanceid, int studentid)
         {
             Performance SelectedPerformance = db.Performances.Include
@@ -191,6 +192,7 @@ namespace PerformingArtsApplication.Controllers
         /// </returns>
         [HttpPost]
         [Route("api/performancedata/RemoveStudentFromPerformance/{performanceid}/{studentid}")]
+        [Authorize]
         public IHttpActionResult RemoveStudentFromPerformance(int performanceid, int studentid)
         {
             Performance SelectedPerformance = db.Performances.Include
@@ -258,6 +260,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdatePerformance(int id, Performance performance)
         {
             if (!ModelState.IsValid)
@@ -315,6 +318,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(Performance))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddPerformance(Performance performance)
         {
             if (!ModelState.IsValid)
@@ -349,6 +353,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(Performance))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeletePerformance(int id)
         {
             Performance performance = db.Performances.Find(id);

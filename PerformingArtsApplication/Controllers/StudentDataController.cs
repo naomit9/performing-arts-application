@@ -241,6 +241,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateStudent(int id, Student student)
         {
             if (!ModelState.IsValid)
@@ -298,6 +299,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(Student))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddStudent(Student student)
         {
             if (!ModelState.IsValid)
@@ -332,6 +334,7 @@ namespace PerformingArtsApplication.Controllers
         /// </example>
         [ResponseType(typeof(Student))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteStudent(int id)
         {
             Student student = db.Students.Find(id);
