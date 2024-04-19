@@ -54,11 +54,13 @@ namespace PerformingArtsApplication.Controllers
         }
 
         // GET: Performance/List
-        public ActionResult List(string SearchKey = null)
+        public ActionResult List(string SearchKey = null, int PageNum =0)
         {
             // get list of performances in the system through an HTTP request
             // GET {resource}/api/performancedata/listperformances
             // curl https://localhost:44304/api/performancedata/listperformances
+
+            PerformanceList ViewModel = new PerformanceList();
 
             // set the url
             string url = "performancedata/listperformances/" + SearchKey;
@@ -67,8 +69,42 @@ namespace PerformingArtsApplication.Controllers
 
             IEnumerable<PerformanceDto> Performances = response.Content.ReadAsAsync<IEnumerable<PerformanceDto>>().Result;
 
+            // start of pagination algorithm
+
+            // find the total number of performances
+            int PerformanceCount = Performances.Count();
+            // number of performances to display per page
+            int PerPage = 4;
+            // determines the maximum number of pages (rounded up), assuming a page 0 start.
+            int MaxPage = (int)Math.Ceiling((decimal)PerformanceCount / PerPage) - 1;
+
+            // lower boundary for max page
+            if (MaxPage < 0) MaxPage = 0;
+            // lower boundary for page number
+            if (PageNum < 0) PageNum = 0;
+            // upper bound for page number
+            if (PageNum > MaxPage) PageNum = MaxPage;
+
+            // the record index of page start
+            int StartIndex = PerPage * PageNum;
+
+            // helps generate the html which shows "Page 1 of ..." on the list view
+            ViewModel.PageNum = PageNum;
+            ViewModel.PageSummary = " " + (PageNum + 1) + " of " + (MaxPage + 1) + " ";
+
+            // end of pagination algorithm
+
+            //send another request to get the page slice of full list
+            url = "performancedata/listperformancespage/" + StartIndex + "/" + PerPage + "/" + SearchKey;
+            response = client.GetAsync(url).Result;
+
+            // retrieve the response of the HTTP Request
+            IEnumerable<PerformanceDto> SelectedPerformancesPage = response.Content.ReadAsAsync<IEnumerable<PerformanceDto>>().Result;
+
+            ViewModel.Performances = SelectedPerformancesPage;
+
             //Views/Performance/List.cshtml
-            return View(Performances);
+            return View(ViewModel);
         }
 
         // GET: Performance/Details/5
