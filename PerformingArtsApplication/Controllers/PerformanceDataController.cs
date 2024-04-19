@@ -80,8 +80,12 @@ namespace PerformingArtsApplication.Controllers
             if (!string.IsNullOrEmpty(SearchKey))
             {
                 //select all performances that have routine names that match the search key
-                Performances = db.Performances.Where
-                   (p => p.PerformanceName.Contains(SearchKey)).ToList();
+                Performances = db.Performances
+                    .Where(p => p.PerformanceName.Contains(SearchKey))
+                    .OrderBy(p => p.PerformanceId)
+                    .Skip(StartIndex)
+                    .Take(PerPage)
+                    .ToList();
             }
 
             List<PerformanceDto> PerformanceDtos = new List<PerformanceDto>();
