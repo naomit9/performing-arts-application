@@ -1,4 +1,5 @@
-﻿﻿@model IEnumerable<PerformingArtsApplication.Models.PerformanceDto>
+﻿@*﻿@model IEnumerable<PerformingArtsApplication.Models.PerformanceDto>*@
+@model PerformingArtsApplication.Models.ViewModels.PerformanceList
 
 @{
     ViewBag.Title = "List";
@@ -36,7 +37,37 @@
 
 <br />
 
+<div>
+    @if (Model.Performances.Count() > 0 && Model.PageNum != null)
+    {
+        int PrevPage = Convert.ToInt32(Model.PageNum) - 1;
+        int NextPage = Convert.ToInt32(Model.PageNum) + 1;
+        @Html.ActionLink("Prev", "List", new { PageNum = PrevPage })
+        @Model.PageSummary
+        @Html.ActionLink("Next", "List", new { PageNum = NextPage })
+    }
+</div>
+
 <table border="1">
+    <thead>
+        <tr>
+            <th>Performance ID</th>
+            <th>Performance Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Performance in Model.Performances)
+        {
+            <tr>
+                <td>@Performance.PerformanceId</td>
+                <td><a href="/Performance/Details/@Performance.PerformanceId">@Performance.PerformanceName</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@*<table border="1">
     <thead>
         <tr>
             <th>Performance ID</th>
@@ -53,4 +84,4 @@
         }
     </tbody>
 
-</table>
+</table>*@

@@ -56,6 +56,47 @@ namespace PerformingArtsApplication.Controllers
         }
 
         /// <summary>
+        ///     Returns a list of all performances in the system. If there is a search input, returns a list of performances related to the search.
+        /// </summary>
+        /// <param name="StartIndex">The index to start from</param>
+        /// <param name="PerPage">The number of records to take</param>
+        /// <param name="SearchKey"> An optional parameter (null if not provided) of the user's search input (as a string) </param>
+        /// <returns>
+        ///     Returns all performances in the database including their performance id and performance name
+        /// </returns>
+        /// <example>
+        ///     GET: api/PerformanceData/ListPerformances
+        ///     GET: api/PerformanceData/ListPerformances/love
+        /// </example>
+        [HttpGet]
+        [Route("api/performancedata/ListPerformancesPage/{StartIndex}/{PerPage}/{SearchKey?}")]
+        public IEnumerable<PerformanceDto> ListPerformancesPage(int StartIndex, int PerPage, string SearchKey = null)
+        {
+            //select all from performances
+            List<Performance> Performances = db.Performances.OrderBy(p => p.PerformanceId).Skip(StartIndex).Take(PerPage).ToList();
+
+
+            //if a searchkey is entered
+            if (!string.IsNullOrEmpty(SearchKey))
+            {
+                //select all performances that have routine names that match the search key
+                Performances = db.Performances.Where
+                   (p => p.PerformanceName.Contains(SearchKey)).ToList();
+            }
+
+            List<PerformanceDto> PerformanceDtos = new List<PerformanceDto>();
+
+            Performances.ForEach(p => PerformanceDtos.Add(new PerformanceDto()
+            {
+                PerformanceId = p.PerformanceId,
+                PerformanceName = p.PerformanceName
+            }
+            ));
+
+            return PerformanceDtos;
+        }
+
+        /// <summary>
         ///     Returns a list of all performances in the system related to a particular showcase
         /// </summary>
         /// <returns>
