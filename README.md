@@ -12,7 +12,7 @@ CRUD Functionality: Our application provides Create, Read, Update, and Delete fu
 </div>
 <br>
 <div>
-  Pagination: To manage large datasets effectively, our application implements pagination, ensuring smooth navigation and performance.
+  Pagination: To manage large datasets effectively, our application implements pagination of records for performances, ensuring smooth navigation and efficiency.
 </div>
 <br>
 <div>
